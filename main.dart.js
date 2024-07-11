@@ -41260,11 +41260,11 @@ p===$&&A.a()
 s=t.p
 p=A.bX(A.b([B.jt,B.cP,A.hT(A.dZ(A.b([A.bX(A.b([A.bF("Briefcase of Ivan Gustin",q,q,A.a7(a).p2.Q,q,q,q),A.bF("Software Engineer",q,q,A.a7(a).p2.Q,q,q,q)],s),B.R,B.u,B.q),B.cP,A.bX(A.b([A.bF("Pasto, Colombia",q,q,A.a7(a).p2.Q,q,q,q),A.akK("ivandgustin@gmail.com",A.a7(a).p2.Q.vq(B.bB))],s),B.R,B.u,B.q),B.cP,A.bX(A.b([A.j8(q,A.dZ(A.b([A.bF("01",q,q,A.a7(a).p2.Q.Nx(10,B.a_),q,q,q),B.CD,A.bF("Linkedin",q,q,A.a7(a).p2.Q.vq(B.bB),q,q,q)],s),B.P,B.u,B.q),B.ad,!1,q,q,q,q,q,q,q,q,q,q,q,q,q,q,new A.a8r(this),q,q,q)],s),B.R,B.u,B.q)],s),B.P,B.u,B.q),p)],s),B.R,B.rJ,B.q)
 r=this.e
-return A.dZ(A.b([new A.aY(B.Cf,p,q),B.az,A.jE(new A.aY(B.C4,A.hT(A.bX(A.b([B.mr,new A.fN("PUBS","",new A.a8s(a),B.O,0.075,q),new A.fN("TRIPPSTER","",new A.a8t(a),B.O,0.075,q),new A.fN("MEPET","",new A.a8u(a),B.O,0.075,q),new A.fN("CONSULTORIO","VIRUTAL",new A.a8v(a),B.O,0.075,q),B.mr],s),B.ip,B.u,B.q),r),q))],s),B.P,B.u,B.q)},
+return A.dZ(A.b([new A.aY(B.Cf,p,q),B.az,A.jE(new A.aY(B.C4,A.hT(A.bX(A.b([B.mr,new A.fN("PUBS","",new A.a8s(a),B.O,0.075,q),new A.fN("TRIPPSTER","",new A.a8t(a),B.O,0.075,q),new A.fN("MEPET","",new A.a8u(a),B.O,0.075,q),new A.fN("CONSULTORIO","VIRTUAL",new A.a8v(a),B.O,0.075,q),B.mr],s),B.ip,B.u,B.q),r),q))],s),B.P,B.u,B.q)},
 Xy(a){var s,r,q=null,p=this.e
 p===$&&A.a()
 s=t.p
-p=A.hT(A.bX(A.b([B.N,new A.fN("PUBS","",new A.a8i(a),B.bb,0.1,q),new A.fN("TRIPPSTER","",new A.a8j(a),B.bb,0.1,q),new A.fN("MEPET","",new A.a8k(a),B.bb,0.1,q),new A.fN("CONSULTORIO","     VIRUTAL",new A.a8l(a),B.bb,0.1,q),B.N],s),B.R,B.u,B.q),p)
+p=A.hT(A.bX(A.b([B.N,new A.fN("PUBS","",new A.a8i(a),B.bb,0.1,q),new A.fN("TRIPPSTER","",new A.a8j(a),B.bb,0.1,q),new A.fN("MEPET","",new A.a8k(a),B.bb,0.1,q),new A.fN("CONSULTORIO","     VIRTUAL",new A.a8l(a),B.bb,0.1,q),B.N],s),B.R,B.u,B.q),p)
 r=this.e
 return A.jE(new A.aY(B.Cd,A.bX(A.b([p,B.CE,B.jt,B.N,A.hT(A.bX(A.b([A.bF("Briefcase of Ivan Gustin",q,q,A.a7(a).p2.Q,q,q,q),A.bF("Software Engineer",q,q,A.a7(a).p2.Q,q,q,q),B.N,A.bF("Pasto, Colombia",q,q,A.a7(a).p2.Q,q,q,q),A.akK("ivandgustin@gmail.com",A.a7(a).p2.Q.vq(B.bB)),B.N,A.j8(q,A.dZ(A.b([A.bF("01",q,q,A.a7(a).p2.Q.Nx(10,B.a_),q,q,q),B.CC,A.bF("Linkedin",q,q,A.a7(a).p2.Q.vq(B.bB),q,q,q)],s),B.P,B.u,B.q),B.ad,!1,q,q,q,q,q,q,q,q,q,q,q,q,q,q,new A.a8m(this),q,q,q)],s),B.R,B.u,B.q),r)],s),B.R,B.u,B.q),q))}}
 A.a8x.prototype={
