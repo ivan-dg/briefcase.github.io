@@ -224,7 +224,7 @@ class _HomePageState extends State<HomePage>
                   ),
                   TextOptionWidget(
                     title: 'CONSULTORIO',
-                    subtitle: 'VIRUTAL',
+                    subtitle: 'VIRTUAL',
                     onTap: () {
                       Navigator.push(
                         context,
@@ -316,7 +316,7 @@ class _HomePageState extends State<HomePage>
                   TextOptionWidget(
                     alignment: Alignment.topLeft,
                     title: 'CONSULTORIO',
-                    subtitle: '     VIRUTAL',
+                    subtitle: '     VIRTUAL',
                     onTap: () {
                       Navigator.push(
                         context,
