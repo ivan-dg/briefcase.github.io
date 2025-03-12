@@ -2,7 +2,7 @@ import 'package:briefcase/lib/widgets/name_widget.dart';
 import 'package:flutter/material.dart';
 
 class HeaderPhoneWidget extends StatelessWidget {
-  const HeaderPhoneWidget({
+  const   HeaderPhoneWidget({
     super.key,
     this.color = Colors.white,
   });

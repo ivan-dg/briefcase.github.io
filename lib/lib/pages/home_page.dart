@@ -1,7 +1,6 @@
 import 'package:briefcase/constants/constants.dart';
 import 'package:briefcase/lib/pages/detail_info_page.dart';
 import 'package:briefcase/lib/pages/mepet_page.dart';
-import 'package:briefcase/lib/pages/pubs_page.dart';
 import 'package:briefcase/lib/pages/virtual_office_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -172,12 +171,55 @@ class _HomePageState extends State<HomePage>
                 children: [
                   const Gap(50),
                   TextOptionWidget(
+                    title: 'MEDICO',
+                    subtitle: 'VIRTUAL',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => DetailInfoPage(
+                            textColor: Colors.white,
+                            colorImagesBack:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            colorBackground: Colors.black,
+                            title: 'MEDICO VIRTUAL',
+                            description:
+                                '¡Descarga Pubs y descubre los mejores lugares de tu ciudad! Con Pubs podrás. Explorar los mejores bares y pubs, ver menús detallados, encontrar eventos y promociones exclusivas, pedir tus canciones favoritas, votar por las canciones que más te gustan (¡las más votadas sonarán en el pub!). Conocer nuevas personas en el lugar donde estés.',
+                            coverImage: 'assets/bar.webp',
+                            images: const [
+                              'assets/pubs_1.png',
+                              'assets/pubs_2.png',
+                              'assets/pubs_3.png',
+                              'assets/pubs_4.png',
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    hFactor: 0.075,
+                  ),
+                  TextOptionWidget(
                     title: 'PUBS',
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const PubsPage(),
+                          builder: (BuildContext context) => DetailInfoPage(
+                            textColor: Colors.white,
+                            colorImagesBack:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            colorBackground: Colors.black,
+                            title: 'PUBS',
+                            description:
+                                '¡Descarga Pubs y descubre los mejores lugares de tu ciudad! Con Pubs podrás. Explorar los mejores bares y pubs, ver menús detallados, encontrar eventos y promociones exclusivas, pedir tus canciones favoritas, votar por las canciones que más te gustan (¡las más votadas sonarán en el pub!). Conocer nuevas personas en el lugar donde estés.',
+                            coverImage: 'assets/bar.webp',
+                            images: const [
+                              'assets/pubs_1.png',
+                              'assets/pubs_2.png',
+                              'assets/pubs_3.png',
+                              'assets/pubs_4.png',
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -191,6 +233,7 @@ class _HomePageState extends State<HomePage>
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) =>
                               const DetailInfoPage(
+                            textColor: Colors.black,
                             colorImagesBack: Color(0XFF00C535),
                             colorBackground: Colors.white,
                             title: 'TRIPPSTER',
@@ -266,7 +309,22 @@ class _HomePageState extends State<HomePage>
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const PubsPage(),
+                          builder: (BuildContext context) => DetailInfoPage(
+                            textColor: Colors.white,
+                            colorImagesBack:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            colorBackground: Colors.black,
+                            title: 'PUBS',
+                            description:
+                                '¡Descarga Pubs y descubre los mejores lugares de tu ciudad! Con Pubs podrás. Explorar los mejores bares y pubs, ver menús detallados, encontrar eventos y promociones exclusivas, pedir tus canciones favoritas, votar por las canciones que más te gustan (¡las más votadas sonarán en el pub!). Conocer nuevas personas en el lugar donde estés.',
+                            coverImage: 'assets/bar.webp',
+                            images: const [
+                              'assets/pubs_1.png',
+                              'assets/pubs_2.png',
+                              'assets/pubs_3.png',
+                              'assets/pubs_4.png',
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -281,6 +339,7 @@ class _HomePageState extends State<HomePage>
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) =>
                               const DetailInfoPage(
+                            textColor: Colors.black,
                             colorImagesBack: Color(0XFF00C535),
                             colorBackground: Colors.white,
                             title: 'TRIPPSTER',

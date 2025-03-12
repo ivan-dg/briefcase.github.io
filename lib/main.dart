@@ -32,7 +32,7 @@ class MainApp extends StatelessWidget {
             ),
             bodySmall: TextStyle(
               fontSize: 14,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withAlpha((0.9 * 255).toInt()),
               fontWeight: FontWeight.w300,
             ),
           ),

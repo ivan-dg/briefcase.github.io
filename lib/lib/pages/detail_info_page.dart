@@ -1,5 +1,5 @@
 import 'package:briefcase/constants/constants.dart';
-import 'package:briefcase/lib/pages/pubs_page.dart';
+import 'package:briefcase/lib/widgets/image_phone_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +17,7 @@ class DetailInfoPage extends StatefulWidget {
     required this.images,
     required this.colorBackground,
     required this.colorImagesBack,
+    required this.textColor,
   });
 
   final String title;
@@ -25,14 +26,13 @@ class DetailInfoPage extends StatefulWidget {
   final List<String> images;
   final Color colorBackground;
   final Color colorImagesBack;
+  final Color textColor;
 
   @override
   State<DetailInfoPage> createState() => _DetailInfoPageState();
 }
 
 class _DetailInfoPageState extends State<DetailInfoPage> {
-  final textColor = Colors.black;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,11 +103,11 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
               paragraph,
               style: (isFirstColumn && idx == 0)
                   ? TextStyle(
-                      color: textColor, // Cambia a tu color deseado
+                      color: widget.textColor, // Cambia a tu color deseado
                       fontSize: 28,
                     )
                   : TextStyle(
-                      color: textColor,
+                      color: widget.textColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w100,
                       height: 2,
@@ -131,10 +131,10 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
             child: Row(
               children: [
                 NameWidget(
-                  color: textColor,
+                  color: widget.textColor,
                 ),
                 const Spacer(),
-                BackButton(color: textColor),
+                BackButton(color: widget.textColor),
               ],
             ),
           ),
@@ -213,8 +213,8 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const HeaderPhoneWidget(
-            color: Colors.black,
+          HeaderPhoneWidget(
+            color: widget.textColor,
           ),
           Container(
             decoration: BoxDecoration(
@@ -251,7 +251,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
             child: RichText(
               text: TextSpan(
                 style: GoogleFonts.kanit(
-                  color: textColor,
+                  color: widget.textColor,
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   height: 2,
@@ -297,7 +297,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
             text: '${paragraphs[i].trim()}.\n\n',
             style: i == 0
                 ? GoogleFonts.kanit(
-                    color: textColor,
+                    color: widget.textColor,
                     fontSize: 22,
                     height: 1.5,
                   )
@@ -306,7 +306,6 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
         );
       }
     }
-
     return textSpans;
   }
 }

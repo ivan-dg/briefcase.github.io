@@ -63,7 +63,7 @@ class _TextOptionWidgetState extends State<TextOptionWidget> {
                   StrokeText(
                     text: '/',
                     textStyle: GoogleFonts.kanit(
-                      color: Colors.black.withOpacity(0.5),
+                      color: Colors.black.withAlpha((0.5 * 255).toInt()),
                       fontSize: 85,
                       fontWeight: FontWeight.w100,
                       height: height,

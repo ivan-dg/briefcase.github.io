@@ -1,5 +1,5 @@
 import 'package:briefcase/constants/constants.dart';
-import 'package:briefcase/lib/pages/pubs_page.dart';
+import 'package:briefcase/lib/widgets/image_phone_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
