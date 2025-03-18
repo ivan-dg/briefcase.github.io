@@ -259,7 +259,22 @@ class _HomePageState extends State<HomePage>
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const MepetPage(),
+                          builder: (BuildContext context) =>
+                              const DetailInfoPage(
+                            textColor: Colors.black,
+                            colorImagesBack: Color(0xFFB9C4FF),
+                            colorBackground: Colors.white,
+                            title: 'MEPET',
+                            description:
+                                'Descarga MePet y encuentra todo lo que tu mascota necesita en un solo lugar. Con MePet, podrás: Comprar alimentos, juguetes, medicinas y más. Explorar nuestra sección de adopción para encontrar a tu nuevo mejor amigo podras con MePet poner en adopción a mascotas que necesitan un hogar. MePet facilita el proceso de adopción y ayuda a muchos animalitos a encontrar un hogar amoroso. ¡Descarga nuestra app y compártela con tus amigos para hacer la diferencia! Ayuda a más animales a encontrar un hogar ¡Con MePet, todos ganan! 🐾💖',
+                            coverImage: 'assets/mepet_1.png',
+                            images: [
+                              'assets/mepet_2.png',
+                              'assets/mepet_3.png',
+                              'assets/mepet_4.png',
+                              'assets/mepet_5.png'
+                            ],
+                          ),
                         ),
                       );
                     },
