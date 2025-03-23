@@ -18,6 +18,7 @@ class DetailInfoPage extends StatefulWidget {
     required this.colorBackground,
     required this.colorImagesBack,
     required this.textColor,
+    this.textColorCover = Colors.white,
   });
 
   final String title;
@@ -27,6 +28,7 @@ class DetailInfoPage extends StatefulWidget {
   final Color colorBackground;
   final Color colorImagesBack;
   final Color textColor;
+  final Color? textColorCover;
 
   @override
   State<DetailInfoPage> createState() => _DetailInfoPageState();
@@ -67,8 +69,8 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
     int totalLength = text.length;
     int currentLength = 0;
     int oneThirdPoint = (totalLength / 3).ceil();
-    int twoThirdPoint = (2 * totalLength / 3).ceil();
-    int firstSplitIndex = 0;
+    int twoThirdPoint = (2 * totalLength / 4).ceil();
+    int firstSplitIndex = 1;
     int secondSplitIndex = 0;
 
     for (int i = 0; i < paragraphs.length; i++) {
@@ -161,7 +163,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
                     fontWeight: FontWeight.w900,
                     height: 1,
                   ),
-                  strokeColor: Colors.white,
+                  strokeColor: widget.textColorCover!,
                   strokeWidth: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.right,
@@ -238,7 +240,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
                     fontWeight: FontWeight.w900,
                     height: 1,
                   ),
-                  strokeColor: Colors.white,
+                  strokeColor: widget.textColorCover!,
                   strokeWidth: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.right,
