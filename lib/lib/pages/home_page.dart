@@ -347,7 +347,7 @@ class _HomePageState extends State<HomePage>
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) => DetailInfoPage(
                             textColor: Colors.black,
-                            colorImagesBack: Color(0xFF00CCFF),
+                            colorImagesBack: const Color(0xFF00CCFF),
                             colorBackground: Colors.white,
                             textColorCover: Colors.black,
                             title: 'DOC IA',
