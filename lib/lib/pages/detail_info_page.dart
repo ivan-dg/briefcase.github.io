@@ -19,6 +19,9 @@ class DetailInfoPage extends StatefulWidget {
     required this.colorImagesBack,
     required this.textColor,
     this.textColorCover = Colors.white,
+    this.openAndroid,
+    this.openApple,
+    this.openWebpage,
   });
 
   final String title;
@@ -29,6 +32,9 @@ class DetailInfoPage extends StatefulWidget {
   final Color colorImagesBack;
   final Color textColor;
   final Color? textColorCover;
+  final Function()? openApple;
+  final Function()? openAndroid;
+  final Function()? openWebpage;
 
   @override
   State<DetailInfoPage> createState() => _DetailInfoPageState();
@@ -202,6 +208,133 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
                   )),
             ),
           ),
+          const Gap(40),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Spacer(
+                flex: 10,
+              ),
+              if (widget.openApple != null)
+                ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.apple,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
+                    backgroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  label: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Download on the',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      Text(
+                        'App Store',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  onPressed: widget.openApple,
+                ),
+              if (widget.openApple != null) const Spacer(),
+              if (widget.openAndroid != null)
+                ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.android,
+                    color: Colors.greenAccent,
+                    size: 30,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
+                    backgroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  label: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Get it on',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      Text(
+                        'Google Play',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  onPressed: widget.openAndroid,
+                ),
+              if (widget.openAndroid != null) const Spacer(),
+              if (widget.openWebpage != null)
+                ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.web,
+                    color: Colors.blue,
+                    size: 30,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
+                    backgroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  label: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Open',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      Text(
+                        'Webpage',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  onPressed: widget.openWebpage,
+                ),
+              if (widget.openWebpage != null) const Spacer(flex: 10),
+            ],
+          ),
           const Gap(200),
         ],
       ),
@@ -282,6 +415,132 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
                   ),
                 ),
               ),
+            ),
+          ),
+          const Gap(40),
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (widget.openApple != null)
+                  ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.apple,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    label: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Download on the',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        Text(
+                          'App Store',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: widget.openApple,
+                  ),
+                if (widget.openApple != null) const Gap(20),
+                if (widget.openAndroid != null)
+                  ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.android,
+                      color: Colors.greenAccent,
+                      size: 30,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    label: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Get it on',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        Text(
+                          'Google Play',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: widget.openAndroid,
+                  ),
+                if (widget.openAndroid != null) const Gap(20),
+                if (widget.openWebpage != null)
+                  ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.web,
+                      color: Colors.blue,
+                      size: 30,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    label: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Open',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        Text(
+                          'Webpage',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: widget.openWebpage,
+                  ),
+              ],
             ),
           ),
           const Gap(100),

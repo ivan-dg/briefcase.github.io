@@ -174,21 +174,23 @@ class _HomePageState extends State<HomePage>
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
+                          builder: (BuildContext context) => DetailInfoPage(
                             textColor: Colors.black,
-                            colorImagesBack: Color(0xFF00CCFF),
+                            colorImagesBack: const Color(0xFF00CCFF),
                             colorBackground: Colors.white,
-                            textColorCover: Color(0xFF3366FF),
+                            textColorCover: Colors.black,
                             title: 'DOC IA',
                             description:
                                 'Bienvenido a Doctor Virtual, tu asistente de salud impulsado por inteligencia artificial. Este chat ha sido diseñado para responder tus preguntas sobre salud, brindarte información confiable y orientarte en temas médicos de manera rápida y accesible. Nuestro objetivo es proporcionarte asesoramiento basado en conocimientos médicos actualizados, ayudándote a comprender síntomas, condiciones y posibles cuidados. Sin embargo, recuerda que Doctor Virtual no sustituye la opinión de un médico profesional,i presentas una emergencia o necesitas un diagnóstico preciso, es fundamental acudir a un especialista. Escríbenos tu consulta y recibe respuestas inmediatas para aclarar dudas sobre bienestar, prevención de enfermedades y hábitos saludables. ¡Tu salud es nuestra prioridad!',
                             coverImage: 'assets/doctor_ia_1.jpg',
-                            images: [
+                            images: const [
                               'assets/doctor_ia_2.png',
                               'assets/doctor_ia_3.png',
                               'assets/doctor_ia_4.png',
                             ],
+                            openWebpage: () {
+                              _launchURL(Constants.webpageDocIA);
+                            },
                           ),
                         ),
                       );
@@ -201,21 +203,29 @@ class _HomePageState extends State<HomePage>
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
+                          builder: (BuildContext context) => DetailInfoPage(
                             textColor: Colors.white,
-                            colorImagesBack: Color(0XFFE9FB00),
+                            colorImagesBack: const Color(0XFFE9FB00),
                             colorBackground: Colors.black,
                             title: 'PUBS',
                             description:
                                 '¡Descarga Pubs y descubre los mejores lugares de tu ciudad! Con Pubs podrás. Explorar los mejores bares y pubs, ver menús detallados, encontrar eventos y promociones exclusivas, pedir tus canciones favoritas, votar por las canciones que más te gustan (¡las más votadas sonarán en el pub!). Conocer nuevas personas en el lugar donde estés.',
                             coverImage: 'assets/bar.webp',
-                            images: [
+                            images: const [
                               'assets/pubs_1.png',
                               'assets/pubs_2.png',
                               'assets/pubs_3.png',
                               'assets/pubs_4.png',
                             ],
+                            openWebpage: () {
+                              _launchURL(Constants.webpagePubs);
+                            },
+                            openAndroid: () {
+                              _launchURL(Constants.urlAndroidPubs);
+                            },
+                            openApple: () {
+                              _launchURL(Constants.urlIosPubs);
+                            },
                           ),
                         ),
                       );
@@ -335,8 +345,7 @@ class _HomePageState extends State<HomePage>
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
+                          builder: (BuildContext context) => DetailInfoPage(
                             textColor: Colors.black,
                             colorImagesBack: Color(0xFF00CCFF),
                             colorBackground: Colors.white,
@@ -345,11 +354,14 @@ class _HomePageState extends State<HomePage>
                             description:
                                 'Bienvenido a Doctor Virtual, tu asistente de salud impulsado por inteligencia artificial. Este chat ha sido diseñado para responder tus preguntas sobre salud, brindarte información confiable y orientarte en temas médicos de manera rápida y accesible. Nuestro objetivo es proporcionarte asesoramiento basado en conocimientos médicos actualizados, ayudándote a comprender síntomas, condiciones y posibles cuidados. Sin embargo, recuerda que Doctor Virtual no sustituye la opinión de un médico profesional,i presentas una emergencia o necesitas un diagnóstico preciso, es fundamental acudir a un especialista. Escríbenos tu consulta y recibe respuestas inmediatas para aclarar dudas sobre bienestar, prevención de enfermedades y hábitos saludables. ¡Tu salud es nuestra prioridad!',
                             coverImage: 'assets/doctor_ia_1.jpg',
-                            images: [
+                            images: const [
                               'assets/doctor_ia_2.png',
                               'assets/doctor_ia_3.png',
                               'assets/doctor_ia_4.png',
                             ],
+                            openWebpage: () {
+                              _launchURL(Constants.webpageDocIA);
+                            },
                           ),
                         ),
                       );
@@ -378,6 +390,15 @@ class _HomePageState extends State<HomePage>
                               'assets/pubs_3.png',
                               'assets/pubs_4.png',
                             ],
+                            openWebpage: () {
+                              _launchURL(Constants.webpagePubs);
+                            },
+                            openAndroid: () {
+                              _launchURL(Constants.urlAndroidPubs);
+                            },
+                            openApple: () {
+                              _launchURL(Constants.urlIosPubs);
+                            },
                           ),
                         ),
                       );
