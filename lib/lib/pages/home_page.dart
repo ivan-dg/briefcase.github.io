@@ -1,8 +1,5 @@
 import 'package:briefcase/constants/constants.dart';
 import 'package:briefcase/lib/pages/detail_info_page.dart';
-import 'package:briefcase/lib/pages/mepet_page.dart';
-import 'package:briefcase/lib/pages/pubs_page.dart';
-import 'package:briefcase/lib/pages/virtual_office_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -96,7 +93,7 @@ class _HomePageState extends State<HomePage>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Briefcase of Ivan Gustin',
+                          'Portfolio of Ivan Gustin',
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         Text(
@@ -172,12 +169,64 @@ class _HomePageState extends State<HomePage>
                 children: [
                   const Gap(50),
                   TextOptionWidget(
+                    title: 'DOC IA',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => DetailInfoPage(
+                            textColor: Colors.black,
+                            colorImagesBack: const Color(0xFF00CCFF),
+                            colorBackground: Colors.white,
+                            textColorCover: Colors.black,
+                            title: 'DOC IA',
+                            description:
+                                'Bienvenido a Doctor Virtual, tu asistente de salud impulsado por inteligencia artificial. Este chat ha sido diseñado para responder tus preguntas sobre salud, brindarte información confiable y orientarte en temas médicos de manera rápida y accesible. Nuestro objetivo es proporcionarte asesoramiento basado en conocimientos médicos actualizados, ayudándote a comprender síntomas, condiciones y posibles cuidados. Sin embargo, recuerda que Doctor Virtual no sustituye la opinión de un médico profesional,i presentas una emergencia o necesitas un diagnóstico preciso, es fundamental acudir a un especialista. Escríbenos tu consulta y recibe respuestas inmediatas para aclarar dudas sobre bienestar, prevención de enfermedades y hábitos saludables. ¡Tu salud es nuestra prioridad!',
+                            coverImage: 'assets/doctor_ia_1.jpg',
+                            images: const [
+                              'assets/doctor_ia_2.png',
+                              'assets/doctor_ia_3.png',
+                              'assets/doctor_ia_4.png',
+                            ],
+                            openWebpage: () {
+                              _launchURL(Constants.webpageDocIA);
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    hFactor: 0.075,
+                  ),
+                  TextOptionWidget(
                     title: 'PUBS',
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const PubsPage(),
+                          builder: (BuildContext context) => DetailInfoPage(
+                            textColor: Colors.white,
+                            colorImagesBack: const Color(0XFFE9FB00),
+                            colorBackground: Colors.black,
+                            title: 'PUBS',
+                            description:
+                                '¡Descarga Pubs y descubre los mejores lugares de tu ciudad! Con Pubs podrás. Explorar los mejores bares y pubs, ver menús detallados, encontrar eventos y promociones exclusivas, pedir tus canciones favoritas, votar por las canciones que más te gustan (¡las más votadas sonarán en el pub!). Conocer nuevas personas en el lugar donde estés.',
+                            coverImage: 'assets/bar.webp',
+                            images: const [
+                              'assets/pubs_1.png',
+                              'assets/pubs_2.png',
+                              'assets/pubs_3.png',
+                              'assets/pubs_4.png',
+                            ],
+                            openWebpage: () {
+                              _launchURL(Constants.webpagePubs);
+                            },
+                            openAndroid: () {
+                              _launchURL(Constants.urlAndroidPubs);
+                            },
+                            openApple: () {
+                              _launchURL(Constants.urlIosPubs);
+                            },
+                          ),
                         ),
                       );
                     },
@@ -191,6 +240,7 @@ class _HomePageState extends State<HomePage>
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) =>
                               const DetailInfoPage(
+                            textColor: Colors.black,
                             colorImagesBack: Color(0XFF00C535),
                             colorBackground: Colors.white,
                             title: 'TRIPPSTER',
@@ -216,7 +266,22 @@ class _HomePageState extends State<HomePage>
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const MepetPage(),
+                          builder: (BuildContext context) =>
+                              const DetailInfoPage(
+                            textColor: Colors.black,
+                            colorImagesBack: Color(0xFFB9C4FF),
+                            colorBackground: Colors.white,
+                            title: 'MEPET',
+                            description:
+                                'Descarga MePet y encuentra todo lo que tu mascota necesita en un solo lugar. Con MePet, podrás: Comprar alimentos, juguetes, medicinas y más. Explorar nuestra sección de adopción para encontrar a tu nuevo mejor amigo podras con MePet poner en adopción a mascotas que necesitan un hogar. MePet facilita el proceso de adopción y ayuda a muchos animalitos a encontrar un hogar amoroso. ¡Descarga nuestra app y compártela con tus amigos para hacer la diferencia! Ayuda a más animales a encontrar un hogar ¡Con MePet, todos ganan! 🐾💖',
+                            coverImage: 'assets/mepet_1.png',
+                            images: [
+                              'assets/mepet_2.png',
+                              'assets/mepet_3.png',
+                              'assets/mepet_4.png',
+                              'assets/mepet_5.png'
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -230,7 +295,21 @@ class _HomePageState extends State<HomePage>
                         context,
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) =>
-                              const VirtualOfficePage(),
+                              const DetailInfoPage(
+                            textColor: Colors.black,
+                            colorImagesBack: Color(0XFF2A52A3),
+                            colorBackground: Color(0XFFF2F2F2),
+                            title: 'CONSULTORIO VIRUTAL',
+                            description:
+                                '¡Bienvenido a Consultorio Virtual, tu asistente personal para gestionar y mejorar tu salud!. Con Consultorio Virtual podrás: Monitorear indicadores clave de salud como peso, presión arterial, ritmo cardíaco y más. Recibir recordatorios y alertas para tomar medicación o realizar chequeos importantes. Visualizar tu evolución con gráficos y estadísticas detalladas. Acceder a consejos personalizados y recomendaciones basadas en tus datos de salud. Compartir tu información con médicos y profesionales de la salud de forma segura. Empieza a tomar el control de tu bienestar hoy mismo. ¡Descarga Consultorio Virtual y lleva un registro completo de tu salud en la palma de tu mano!',
+                            coverImage: 'assets/cons_virt_1.jpg',
+                            images: [
+                              'assets/cons_virt_2.png',
+                              'assets/cons_virt_3.png',
+                              'assets/cons_virt_5.png',
+                              'assets/cons_virt_4.png'
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -261,12 +340,66 @@ class _HomePageState extends State<HomePage>
                   const Gap(20),
                   TextOptionWidget(
                     alignment: Alignment.topLeft,
+                    title: 'DOC IA',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => DetailInfoPage(
+                            textColor: Colors.black,
+                            colorImagesBack: Color(0xFF00CCFF),
+                            colorBackground: Colors.white,
+                            textColorCover: Colors.black,
+                            title: 'DOC IA',
+                            description:
+                                'Bienvenido a Doctor Virtual, tu asistente de salud impulsado por inteligencia artificial. Este chat ha sido diseñado para responder tus preguntas sobre salud, brindarte información confiable y orientarte en temas médicos de manera rápida y accesible. Nuestro objetivo es proporcionarte asesoramiento basado en conocimientos médicos actualizados, ayudándote a comprender síntomas, condiciones y posibles cuidados. Sin embargo, recuerda que Doctor Virtual no sustituye la opinión de un médico profesional,i presentas una emergencia o necesitas un diagnóstico preciso, es fundamental acudir a un especialista. Escríbenos tu consulta y recibe respuestas inmediatas para aclarar dudas sobre bienestar, prevención de enfermedades y hábitos saludables. ¡Tu salud es nuestra prioridad!',
+                            coverImage: 'assets/doctor_ia_1.jpg',
+                            images: const [
+                              'assets/doctor_ia_2.png',
+                              'assets/doctor_ia_3.png',
+                              'assets/doctor_ia_4.png',
+                            ],
+                            openWebpage: () {
+                              _launchURL(Constants.webpageDocIA);
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    hFactor: 0.1,
+                  ),
+                  TextOptionWidget(
+                    alignment: Alignment.topLeft,
                     title: 'PUBS',
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const PubsPage(),
+                          builder: (BuildContext context) => DetailInfoPage(
+                            textColor: Colors.white,
+                            colorImagesBack:
+                                Theme.of(context).scaffoldBackgroundColor,
+                            colorBackground: Colors.black,
+                            title: 'PUBS',
+                            description:
+                                '¡Descarga Pubs y descubre los mejores lugares de tu ciudad! Con Pubs podrás. Explorar los mejores bares y pubs, ver menús detallados, encontrar eventos y promociones exclusivas, pedir tus canciones favoritas, votar por las canciones que más te gustan (¡las más votadas sonarán en el pub!). Conocer nuevas personas en el lugar donde estés.',
+                            coverImage: 'assets/bar.webp',
+                            images: const [
+                              'assets/pubs_1.png',
+                              'assets/pubs_2.png',
+                              'assets/pubs_3.png',
+                              'assets/pubs_4.png',
+                            ],
+                            openWebpage: () {
+                              _launchURL(Constants.webpagePubs);
+                            },
+                            openAndroid: () {
+                              _launchURL(Constants.urlAndroidPubs);
+                            },
+                            openApple: () {
+                              _launchURL(Constants.urlIosPubs);
+                            },
+                          ),
                         ),
                       );
                     },
@@ -281,6 +414,7 @@ class _HomePageState extends State<HomePage>
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) =>
                               const DetailInfoPage(
+                            textColor: Colors.black,
                             colorImagesBack: Color(0XFF00C535),
                             colorBackground: Colors.white,
                             title: 'TRIPPSTER',
@@ -307,7 +441,22 @@ class _HomePageState extends State<HomePage>
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const MepetPage(),
+                          builder: (BuildContext context) =>
+                              const DetailInfoPage(
+                            textColor: Colors.black,
+                            colorImagesBack: Color(0xFFB9C4FF),
+                            colorBackground: Colors.white,
+                            title: 'MEPET',
+                            description:
+                                'Descarga MePet y encuentra todo lo que tu mascota necesita en un solo lugar. Con MePet, podrás: Comprar alimentos, juguetes, medicinas y más. Explorar nuestra sección de adopción para encontrar a tu nuevo mejor amigo podras con MePet poner en adopción a mascotas que necesitan un hogar. MePet facilita el proceso de adopción y ayuda a muchos animalitos a encontrar un hogar amoroso. ¡Descarga nuestra app y compártela con tus amigos para hacer la diferencia! Ayuda a más animales a encontrar un hogar ¡Con MePet, todos ganan! 🐾💖',
+                            coverImage: 'assets/mepet_1.png',
+                            images: [
+                              'assets/mepet_2.png',
+                              'assets/mepet_3.png',
+                              'assets/mepet_4.png',
+                              'assets/mepet_5.png'
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -322,7 +471,21 @@ class _HomePageState extends State<HomePage>
                         context,
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) =>
-                              const VirtualOfficePage(),
+                              const DetailInfoPage(
+                            textColor: Colors.black,
+                            colorImagesBack: Color(0XFF2A52A3),
+                            colorBackground: Color(0XFFF2F2F2),
+                            title: 'CONSULTORIO VIRUTAL',
+                            description:
+                                '¡Bienvenido a Consultorio Virtual, tu asistente personal para gestionar y mejorar tu salud!. Con Consultorio Virtual podrás: Monitorear indicadores clave de salud como peso, presión arterial, ritmo cardíaco y más. Recibir recordatorios y alertas para tomar medicación o realizar chequeos importantes. Visualizar tu evolución con gráficos y estadísticas detalladas. Acceder a consejos personalizados y recomendaciones basadas en tus datos de salud. Compartir tu información con médicos y profesionales de la salud de forma segura. Empieza a tomar el control de tu bienestar hoy mismo. ¡Descarga Consultorio Virtual y lleva un registro completo de tu salud en la palma de tu mano!',
+                            coverImage: 'assets/cons_virt_1.jpg',
+                            images: [
+                              'assets/cons_virt_2.png',
+                              'assets/cons_virt_3.png',
+                              'assets/cons_virt_5.png',
+                              'assets/cons_virt_4.png'
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -341,7 +504,7 @@ class _HomePageState extends State<HomePage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Briefcase of Ivan Gustin',
+                    'Portfolio of Ivan Gustin',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   Text(

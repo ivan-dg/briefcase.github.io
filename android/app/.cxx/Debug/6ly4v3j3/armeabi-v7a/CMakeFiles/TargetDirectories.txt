@@ -1,0 +1,2 @@
+/Users/ivang/ivan docs/Codes/Flutter/briefcase/android/app/.cxx/Debug/6ly4v3j3/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/Users/ivang/ivan docs/Codes/Flutter/briefcase/android/app/.cxx/Debug/6ly4v3j3/armeabi-v7a/CMakeFiles/edit_cache.dir

@@ -1,3 +1,4 @@
+import 'package:briefcase/lib/pages/detail_info_page.dart';
 import 'package:briefcase/lib/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,12 +33,27 @@ class MainApp extends StatelessWidget {
             ),
             bodySmall: TextStyle(
               fontSize: 14,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withAlpha((0.9 * 255).toInt()),
               fontWeight: FontWeight.w300,
             ),
           ),
         ),
       ),
+      // home: const DetailInfoPage(
+      //   textColor: Colors.black,
+      //   colorImagesBack: Color(0xFF00CCFF),
+      //   colorBackground: Colors.white,
+      //   textColorCover: Colors.black,
+      //   title: 'DOC IA',
+      //   description:
+      //       'Bienvenido a Doctor Virtual, tu asistente de salud impulsado por inteligencia artificial. Este chat ha sido diseñado para responder tus preguntas sobre salud, brindarte información confiable y orientarte en temas médicos de manera rápida y accesible. Nuestro objetivo es proporcionarte asesoramiento basado en conocimientos médicos actualizados, ayudándote a comprender síntomas, condiciones y posibles cuidados. Sin embargo, recuerda que Doctor Virtual no sustituye la opinión de un médico profesional,i presentas una emergencia o necesitas un diagnóstico preciso, es fundamental acudir a un especialista. Escríbenos tu consulta y recibe respuestas inmediatas para aclarar dudas sobre bienestar, prevención de enfermedades y hábitos saludables. ¡Tu salud es nuestra prioridad!',
+      //   coverImage: 'assets/doctor_ia_1.jpg',
+      //   images: [
+      //     'assets/doctor_ia_2.png',
+      //     'assets/doctor_ia_3.png',
+      //     'assets/doctor_ia_4.png',
+      //   ],
+      // ),
       home: const HomePage(),
     );
   }
