@@ -202,7 +202,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
                   children: List.generate(
                     widget.images.length,
                     (index) => ImagePhoneWidget(
-                      height: 500,
+                      height: 540,
                       url: widget.images[index],
                     ),
                   )),

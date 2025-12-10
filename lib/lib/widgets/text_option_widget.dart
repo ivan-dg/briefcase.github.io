@@ -78,7 +78,7 @@ class _TextOptionWidgetState extends State<TextOptionWidget> {
                     builder:
                         (BuildContext context, dynamic color, Widget? child) {
                       return StrokeText(
-                        text: widget.title,
+                        text: widget.title.toUpperCase(),
                         textStyle: _isHovered
                             ? GoogleFonts.kanit(
                                 color: color,
@@ -111,7 +111,7 @@ class _TextOptionWidgetState extends State<TextOptionWidget> {
                   builder:
                       (BuildContext context, dynamic color, Widget? child) {
                     return StrokeText(
-                      text: widget.subtitle!,
+                      text: widget.subtitle!.toUpperCase(),
                       textStyle: _isHovered
                           ? GoogleFonts.kanit(
                               color: color,

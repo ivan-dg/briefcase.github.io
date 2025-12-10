@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ImagePhoneWidget extends StatelessWidget {
   const ImagePhoneWidget({
     super.key,
-    required this.height,
+    this.height = 540,
     required this.url,
   });
 
@@ -17,7 +17,7 @@ class ImagePhoneWidget extends StatelessWidget {
         Radius.circular(15),
       ),
       child: Image.asset(
-        height: 540,
+        height: height,
         width: 250,
         url,
         fit: BoxFit.fill,
