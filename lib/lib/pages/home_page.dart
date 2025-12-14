@@ -371,6 +371,36 @@ class _HomePageState extends State<HomePage>
                   const Gap(20),
                   TextOptionWidget(
                     alignment: Alignment.topLeft,
+                    title: 'athlete',
+                    subtitle: '     arcade',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              const DetailInfoPage(
+                            textColor: Colors.black,
+                            colorImagesBack: Color(0xff00aa57),
+                            colorBackground: Colors.white,
+                            textColorCover: Colors.white,
+                            title: 'athlete arcade',
+                            description:
+                                '¡Bienvenido a Athlete Arcade! El punto de encuentro donde cada jugador de pickleball se convierte en leyenda. Aquí no solo juegas: compites, mejoras y descubres hasta dónde puedes llegar. Con Athlete Arcade podrás: Crear y liderar torneos que pondrán a prueba tus habilidades, armar o unirte a partidas con jugadores de todos los niveles, ver tus estadísticas y evolución, para que cada punto cuente. Aqui podras revisar tus puntajes y partidos en un solo lugar, explorar perfiles de otros jugadores y conectar con la comunidad, coleccionar medallas y logros cada vez que conquistas la cancha. Prepárate para vivir el pickleball como nunca antes, tu aventura comienza aquí.',
+                            coverImage: 'assets/athl_ar_1.jpg',
+                            images: [
+                              'assets/athl_ar_5.png',
+                              'assets/athl_ar_2.png',
+                              'assets/athl_ar_3.png',
+                              'assets/athl_ar_4.png',
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    hFactor: 0.1,
+                  ),
+                  TextOptionWidget(
+                    alignment: Alignment.topLeft,
                     title: 'DOC IA',
                     onTap: () {
                       Navigator.push(

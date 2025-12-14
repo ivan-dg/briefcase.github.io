@@ -229,7 +229,9 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
                     backgroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
+                      side: const BorderSide(color: Colors.white),
                     ),
+                    minimumSize: const Size(150, 42),
                   ),
                   label: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,7 +270,9 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
                     backgroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
+                      side: const BorderSide(color: Colors.greenAccent),
                     ),
+                    minimumSize: const Size(150, 42),
                   ),
                   label: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,7 +311,9 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
                     backgroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
+                      side: const BorderSide(color: Colors.blue),
                     ),
+                    minimumSize: const Size(150, 42),
                   ),
                   label: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -437,7 +443,9 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
                       backgroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
+                        side: const BorderSide(color: Colors.white),
                       ),
+                      minimumSize: const Size(150, 42),
                     ),
                     label: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -476,7 +484,9 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
                       backgroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
+                        side: const BorderSide(color: Colors.greenAccent),
                       ),
+                      minimumSize: const Size(150, 42),
                     ),
                     label: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -515,7 +525,9 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
                       backgroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
+                        side: const BorderSide(color: Colors.blue),
                       ),
+                      minimumSize: const Size(150, 42),
                     ),
                     label: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
