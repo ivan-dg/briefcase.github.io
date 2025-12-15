@@ -193,19 +193,25 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
             ),
           ),
           Container(
+            width: MediaQuery.sizeOf(context).width,
             color: widget.colorImagesBack,
             padding: const EdgeInsets.symmetric(vertical: 30),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List.generate(
-                    widget.images.length,
-                    (index) => ImagePhoneWidget(
-                      height: 540,
-                      url: widget.images[index],
-                    ),
-                  )),
+            child: Center(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  spacing: 20,
+                  children: widget.images
+                      .map(
+                        (image) => ImagePhoneWidget(
+                          height: 540,
+                          url: image,
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
             ),
           ),
           const Gap(40),
