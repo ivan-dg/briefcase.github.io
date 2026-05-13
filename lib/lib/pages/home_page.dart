@@ -176,23 +176,25 @@ class _HomePageState extends State<HomePage>
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
+                          builder: (BuildContext context) => DetailInfoPage(
                             textColor: Colors.black,
-                            colorImagesBack: Color(0xff60308f),
+                            colorImagesBack: const Color(0xff60308f),
                             colorBackground: Colors.white,
                             textColorCover: Colors.white,
                             title: 'sqwabl',
                             description:
-                                '¡Bienvenido a Athlete Arcade! El punto de encuentro donde cada jugador de pickleball se convierte en leyenda. Aquí no solo juegas: compites, mejoras y descubres hasta dónde puedes llegar. Con Athlete Arcade podrás: Crear y liderar torneos que pondrán a prueba tus habilidades, armar o unirte a partidas con jugadores de todos los niveles, ver tus estadísticas y evolución, para que cada punto cuente. Aqui podras revisar tus puntajes y partidos en un solo lugar, explorar perfiles de otros jugadores y conectar con la comunidad, coleccionar medallas y logros cada vez que conquistas la cancha. Prepárate para vivir el pickleball como nunca antes, tu aventura comienza aquí.',
+                                'Sqwabl: El fin del caos en tus planes grupales ¿Cansado de cientos de mensajes para no llegar a nada? Sqwabl es la solución definitiva para transformar la indecisión en acción. Olvídate de los chats infinitos y las conversaciones circulares; nuestra app simplifica la toma de decisiones grupales mediante encuestas visuales y rápidas que te permiten concretar planes en segundos. Desde elegir el próximo destino de vacaciones hasta decidir qué cenar hoy, Sqwabl centraliza las opciones y los votos en un solo lugar. Además, con nuestras listas compartidas, puedes organizar ideas futuras y gestionar eventos sin estrés. Es la herramienta de productividad social diseñada para que pases menos tiempo debatiendo y más tiempo disfrutando. ¡Descarga Sqwabl y haz que ponerse de acuerdo sea la parte más fácil de tu día!',
                             coverImage: 'assets/sqwabl_1.png',
-                            images: [
+                            images: const [
                               'assets/sqwabl_2.png',
                               'assets/sqwabl_5.png',
                               'assets/sqwabl_3.png',
                               'assets/sqwabl_4.png',
                               'assets/sqwabl_6.png',
                             ],
+                            openWebpage: () {
+                              _launchURL(Constants.urlSqwablWeb);
+                            },
                           ),
                         ),
                       );
@@ -405,23 +407,25 @@ class _HomePageState extends State<HomePage>
                       Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
+                          builder: (BuildContext context) => DetailInfoPage(
                             textColor: Colors.black,
-                            colorImagesBack: Color(0xff60308f),
+                            colorImagesBack: const Color(0xff60308f),
                             colorBackground: Colors.white,
                             textColorCover: Colors.white,
                             title: 'sqwabl',
                             description:
-                                '¡Bienvenido a Athlete Arcade! El punto de encuentro donde cada jugador de pickleball se convierte en leyenda. Aquí no solo juegas: compites, mejoras y descubres hasta dónde puedes llegar. Con Athlete Arcade podrás: Crear y liderar torneos que pondrán a prueba tus habilidades, armar o unirte a partidas con jugadores de todos los niveles, ver tus estadísticas y evolución, para que cada punto cuente. Aqui podras revisar tus puntajes y partidos en un solo lugar, explorar perfiles de otros jugadores y conectar con la comunidad, coleccionar medallas y logros cada vez que conquistas la cancha. Prepárate para vivir el pickleball como nunca antes, tu aventura comienza aquí.',
+                                'Sqwabl: El fin del caos en tus planes grupales ¿Cansado de cientos de mensajes para no llegar a nada? Sqwabl es la solución definitiva para transformar la indecisión en acción. Olvídate de los chats infinitos y las conversaciones circulares; nuestra app simplifica la toma de decisiones grupales mediante encuestas visuales y rápidas que te permiten concretar planes en segundos. Desde elegir el próximo destino de vacaciones hasta decidir qué cenar hoy, Sqwabl centraliza las opciones y los votos en un solo lugar. Además, con nuestras listas compartidas, puedes organizar ideas futuras y gestionar eventos sin estrés. Es la herramienta de productividad social diseñada para que pases menos tiempo debatiendo y más tiempo disfrutando. ¡Descarga Sqwabl y haz que ponerse de acuerdo sea la parte más fácil de tu día!',
                             coverImage: 'assets/sqwabl_1.png',
-                            images: [
+                            images: const [
                               'assets/sqwabl_2.png',
                               'assets/sqwabl_5.png',
                               'assets/sqwabl_3.png',
                               'assets/sqwabl_4.png',
                               'assets/sqwabl_6.png',
                             ],
+                            openWebpage: () {
+                              _launchURL(Constants.urlSqwablWeb);
+                            },
                           ),
                         ),
                       );
