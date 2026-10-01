@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:briefcase/constants/constants.dart';
+import 'package:briefcase/lib/widgets/project_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,8 +26,10 @@ class _TextOptionWidgetState extends State<TextOptionWidget>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _animation;
+  late final Animation<double> _lineAnimation;
   Timer? _timer;
   bool _hovered = false;
+  bool _pressed = false;
 
   @override
   void initState() {
@@ -37,6 +40,10 @@ class _TextOptionWidgetState extends State<TextOptionWidget>
     );
     _animation =
         CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
+    _lineAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.2, 1.0, curve: Curves.easeOutCubic),
+    );
     _timer = Timer(
       Duration(milliseconds: 150 + widget.index * 80),
       _controller.forward,
@@ -53,7 +60,6 @@ class _TextOptionWidgetState extends State<TextOptionWidget>
   @override
   Widget build(BuildContext context) {
     final wide = MediaQuery.sizeOf(context).width > 800;
-    final titleSize = wide ? 32.0 : 23.0;
 
     return FadeTransition(
       opacity: _animation,
@@ -67,61 +73,74 @@ class _TextOptionWidgetState extends State<TextOptionWidget>
           onExit: (_) => setState(() => _hovered = false),
           child: GestureDetector(
             onTap: widget.onTap,
+            onTapDown: (_) => setState(() => _pressed = true),
+            onTapUp: (_) => setState(() => _pressed = false),
+            onTapCancel: () => setState(() => _pressed = false),
             behavior: HitTestBehavior.opaque,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: wide ? 24 : 16),
-                  child: Row(
-                    children: [
-                      AnimatedDefaultTextStyle(
-                        duration: Constants.animFast,
-                        curve: Curves.easeOutCubic,
-                        style: GoogleFonts.spaceMono(
-                          fontSize: 12,
-                          color: _hovered
-                              ? Constants.accent
-                              : Constants.inkSecondary,
+                AnimatedScale(
+                  scale: _pressed ? 0.99 : 1.0,
+                  duration: const Duration(milliseconds: 120),
+                  curve: Curves.easeOutCubic,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: wide ? 24 : 16),
+                    child: Row(
+                      children: [
+                        AnimatedDefaultTextStyle(
+                          duration: Constants.animFast,
+                          curve: Curves.easeOutCubic,
+                          style: GoogleFonts.spaceMono(
+                            fontSize: 12,
+                            color: _hovered
+                                ? Constants.accent
+                                : Constants.inkSecondary,
+                          ),
+                          child:
+                              Text(widget.index.toString().padLeft(2, '0')),
                         ),
-                        child: Text(widget.index.toString().padLeft(2, '0')),
-                      ),
-                      const Gap(28),
-                      TweenAnimationBuilder<double>(
-                        tween: Tween(begin: 0.0, end: _hovered ? 1.0 : 0.0),
-                        duration: Constants.animFast,
-                        curve: Curves.easeOutCubic,
-                        builder: (context, t, child) => Transform.translate(
-                          offset: Offset(8 * t, 0),
-                          child: child,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.title.toUpperCase(),
-                              style: GoogleFonts.kanit(
-                                fontSize: titleSize,
-                                fontWeight: FontWeight.w900,
-                                height: 1.0,
+                        const Gap(28),
+                        TweenAnimationBuilder<double>(
+                          tween: Tween(begin: 0.0, end: _hovered ? 1.0 : 0.0),
+                          duration: Constants.animFast,
+                          curve: Curves.easeOutCubic,
+                          builder: (context, t, child) => Transform.translate(
+                            offset: Offset(8 * t, 0),
+                            child: child,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ProjectHero(
+                                title: widget.title,
+                                detail: false,
+                              ),
+                              const Gap(6),
+                              AnimatedContainer(
+                                duration: Constants.animFast,
+                                curve: Curves.easeOutCubic,
+                                width: _hovered ? 44 : 0,
+                                height: 2,
                                 color: Constants.ink,
                               ),
-                            ),
-                            const Gap(6),
-                            AnimatedContainer(
-                              duration: Constants.animFast,
-                              curve: Curves.easeOutCubic,
-                              width: _hovered ? 44 : 0,
-                              height: 2,
-                              color: Constants.ink,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-                Container(height: 1, color: Constants.hairline),
+                AnimatedBuilder(
+                  animation: _lineAnimation,
+                  builder: (context, child) => Transform.scale(
+                    alignment: Alignment.centerLeft,
+                    scaleX:
+                        _lineAnimation.value < 0.001 ? 0.001 : _lineAnimation.value,
+                    child: child,
+                  ),
+                  child: Container(height: 1, color: Constants.hairline),
+                ),
               ],
             ),
           ),

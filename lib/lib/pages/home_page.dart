@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage>
   void _openDetail(DetailInfoPage page) {
     Navigator.push(
       context,
-      MaterialPageRoute<void>(builder: (BuildContext context) => page),
+      _FadeThroughRoute<void>(page: page),
     );
   }
 
@@ -409,4 +409,27 @@ class _LangOptionState extends State<_LangOption> {
       ),
     );
   }
+}
+
+class _FadeThroughRoute<T> extends PageRouteBuilder<T> {
+  _FadeThroughRoute({required Widget page})
+      : super(
+          transitionDuration: const Duration(milliseconds: 450),
+          reverseTransitionDuration: const Duration(milliseconds: 380),
+          pageBuilder: (context, animation, secondaryAnimation) => page,
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            final curved = CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutCubic,
+              reverseCurve: Curves.easeInCubic,
+            );
+            return FadeTransition(
+              opacity: curved,
+              child: ScaleTransition(
+                scale: Tween<double>(begin: 0.96, end: 1.0).animate(curved),
+                child: child,
+              ),
+            );
+          },
+        );
 }

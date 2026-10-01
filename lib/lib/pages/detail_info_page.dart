@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:briefcase/constants/constants.dart';
 import 'package:briefcase/l10n/app_strings.dart';
 import 'package:briefcase/lib/widgets/image_phone_widget.dart';
+import 'package:briefcase/lib/widgets/project_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -34,6 +37,20 @@ class DetailInfoPage extends StatefulWidget {
 }
 
 class _DetailInfoPageState extends State<DetailInfoPage> {
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +74,58 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
     final lede = widget.description.substring(0, idx + 1);
     final rest = widget.description.substring(idx + 1).trim();
     return (lede, rest);
+  }
+
+  Widget _fadeFrameBuilder(
+    BuildContext context,
+    Widget child,
+    int? frame,
+    bool wasSynchronouslyLoaded,
+  ) {
+    if (wasSynchronouslyLoaded) {
+      return child;
+    }
+    return AnimatedOpacity(
+      opacity: frame == null ? 0.0 : 1.0,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOutCubic,
+      child: child,
+    );
+  }
+
+  Widget _parallaxCover({required double height, required double extra}) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(6),
+      child: SizedBox(
+        height: height,
+        width: double.infinity,
+        child: ListenableBuilder(
+          listenable: _scrollController,
+          builder: (context, child) {
+            double t = _scrollController.hasClients
+                ? _scrollController.offset * 0.12
+                : 0.0;
+            if (t > extra) {
+              t = extra;
+            }
+            if (t < 0.0) {
+              t = 0.0;
+            }
+            return Transform.translate(
+              offset: Offset(0, t - extra),
+              child: child,
+            );
+          },
+          child: Image.asset(
+            widget.coverImage,
+            width: double.infinity,
+            height: height + extra,
+            fit: BoxFit.cover,
+            frameBuilder: _fadeFrameBuilder,
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildDescription(BuildContext context, {required bool wide}) {
@@ -139,21 +208,21 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
       runSpacing: 16,
       children: [
         if (widget.openApple != null)
-          _storeButton(
+          _StoreButton(
             icon: Icons.apple,
             topLabel: L10n.of(context, 'appStoreTop'),
             bottomLabel: L10n.of(context, 'appStoreBottom'),
             onPressed: widget.openApple,
           ),
         if (widget.openAndroid != null)
-          _storeButton(
+          _StoreButton(
             icon: Icons.android,
             topLabel: L10n.of(context, 'googlePlayTop'),
             bottomLabel: L10n.of(context, 'googlePlayBottom'),
             onPressed: widget.openAndroid,
           ),
         if (widget.openWebpage != null)
-          _storeButton(
+          _StoreButton(
             icon: Icons.web,
             topLabel: L10n.of(context, 'webTop'),
             bottomLabel: L10n.of(context, 'webBottom'),
@@ -163,50 +232,9 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
     );
   }
 
-  Widget _storeButton({
-    required IconData icon,
-    required String topLabel,
-    required String bottomLabel,
-    required VoidCallback? onPressed,
-  }) {
-    return ElevatedButton.icon(
-      icon: Icon(icon, color: Colors.white, size: 30),
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        backgroundColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: Colors.black),
-        ),
-        minimumSize: const Size(150, 42),
-      ),
-      label: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            topLabel,
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 10,
-              fontWeight: FontWeight.w300,
-            ),
-          ),
-          Text(
-            bottomLabel,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-      onPressed: onPressed,
-    );
-  }
-
   Widget _buildWideLayout(BuildContext context) {
     return SingleChildScrollView(
+      controller: _scrollController,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -227,33 +255,30 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Gap(20),
-                _RiseIn(
-                  child: Text(
-                    widget.title.toUpperCase(),
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
+                ProjectHero(title: widget.title, detail: true),
                 const Gap(36),
-                _RiseIn(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
-                    child: Image.asset(
-                      widget.coverImage,
-                      width: double.infinity,
-                      height: 420,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                _StaggerIn(
+                  order: 0,
+                  child: _parallaxCover(height: 420, extra: 48),
                 ),
                 const Gap(70),
-                _buildDescription(context, wide: true),
+                _StaggerIn(
+                  order: 1,
+                  child: _buildDescription(context, wide: true),
+                ),
                 const Gap(70),
               ],
             ),
           ),
-          _buildImagesBand(context, wide: true),
+          _StaggerIn(
+            order: 2,
+            child: _buildImagesBand(context, wide: true),
+          ),
           const Gap(48),
-          Center(child: _buildActionButtons(context)),
+          _StaggerIn(
+            order: 3,
+            child: Center(child: _buildActionButtons(context)),
+          ),
           const Gap(160),
         ],
       ),
@@ -262,6 +287,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
 
   Widget _buildNarrowLayout(BuildContext context) {
     return SingleChildScrollView(
+      controller: _scrollController,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -272,32 +298,30 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Gap(10),
-                Text(
-                  widget.title.toUpperCase(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(fontSize: 34),
-                ),
+                ProjectHero(title: widget.title, detail: true),
                 const Gap(24),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: Image.asset(
-                    widget.coverImage,
-                    width: double.infinity,
-                    height: 220,
-                    fit: BoxFit.cover,
-                  ),
+                _StaggerIn(
+                  order: 0,
+                  child: _parallaxCover(height: 220, extra: 40),
                 ),
                 const Gap(44),
-                _buildDescription(context, wide: false),
+                _StaggerIn(
+                  order: 1,
+                  child: _buildDescription(context, wide: false),
+                ),
                 const Gap(44),
               ],
             ),
           ),
-          _buildImagesBand(context, wide: false),
+          _StaggerIn(
+            order: 2,
+            child: _buildImagesBand(context, wide: false),
+          ),
           const Gap(40),
-          Center(child: _buildActionButtons(context)),
+          _StaggerIn(
+            order: 3,
+            child: Center(child: _buildActionButtons(context)),
+          ),
           const Gap(100),
         ],
       ),
@@ -305,22 +329,121 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
   }
 }
 
-class _RiseIn extends StatelessWidget {
-  const _RiseIn({required this.child});
+class _StaggerIn extends StatefulWidget {
+  const _StaggerIn({required this.order, required this.child});
 
+  final int order;
   final Widget child;
 
   @override
+  State<_StaggerIn> createState() => _StaggerInState();
+}
+
+class _StaggerInState extends State<_StaggerIn>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    );
+    _animation =
+        CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
+    _timer = Timer(
+      Duration(milliseconds: 80 + widget.order * 90),
+      _controller.forward,
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0.0, end: 1.0),
-      duration: const Duration(milliseconds: 800),
-      curve: Curves.easeOutCubic,
-      builder: (context, t, _) => Opacity(
-        opacity: t,
-        child: Transform.translate(
-          offset: Offset(0, 14 * (1 - t)),
-          child: child,
+    return FadeTransition(
+      opacity: _animation,
+      child: SlideTransition(
+        position: _animation.drive(
+          Tween<Offset>(begin: const Offset(0, 0.05), end: Offset.zero),
+        ),
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+class _StoreButton extends StatefulWidget {
+  const _StoreButton({
+    required this.icon,
+    required this.topLabel,
+    required this.bottomLabel,
+    this.onPressed,
+  });
+
+  final IconData icon;
+  final String topLabel;
+  final String bottomLabel;
+  final VoidCallback? onPressed;
+
+  @override
+  State<_StoreButton> createState() => _StoreButtonState();
+}
+
+class _StoreButtonState extends State<_StoreButton> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: AnimatedScale(
+        scale: _hovered ? 1.03 : 1.0,
+        duration: Constants.animFast,
+        curve: Curves.easeOutCubic,
+        child: ElevatedButton.icon(
+          icon: Icon(widget.icon, color: Colors.white, size: 30),
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            backgroundColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(color: Colors.black),
+            ),
+            minimumSize: const Size(150, 42),
+          ),
+          label: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.topLabel,
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              Text(
+                widget.bottomLabel,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          onPressed: widget.onPressed,
         ),
       ),
     );

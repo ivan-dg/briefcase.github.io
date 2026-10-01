@@ -21,6 +21,17 @@ class ImagePhoneWidget extends StatelessWidget {
         width: 250,
         url,
         fit: BoxFit.cover,
+        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+          if (wasSynchronouslyLoaded) {
+            return child;
+          }
+          return AnimatedOpacity(
+            opacity: frame == null ? 0.0 : 1.0,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeOutCubic,
+            child: child,
+          );
+        },
       ),
     );
   }
