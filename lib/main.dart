@@ -17,18 +17,17 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Constants.canvas,
         textTheme: TextTheme(
-          titleLarge: GoogleFonts.fraunces(
+          titleLarge: GoogleFonts.kanit(
             fontSize: 62,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w800,
             letterSpacing: -1,
-            height: 1.02,
+            height: 0.95,
             color: Constants.ink,
           ),
-          titleMedium: GoogleFonts.fraunces(
-            fontSize: 46,
-            fontWeight: FontWeight.w500,
-            letterSpacing: -0.5,
-            height: 1.04,
+          titleMedium: GoogleFonts.kanit(
+            fontSize: 45,
+            fontWeight: FontWeight.w800,
+            height: 0.75,
             color: Constants.ink,
           ),
           bodyLarge: GoogleFonts.instrumentSans(

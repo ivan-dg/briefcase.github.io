@@ -130,12 +130,69 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
       runSpacing: 16,
       children: [
         if (widget.openApple != null)
-          _TextArrowButton(label: 'App Store', onTap: widget.openApple),
+          _storeButton(
+            icon: Icons.apple,
+            topLabel: 'Download on the',
+            bottomLabel: 'App Store',
+            onPressed: widget.openApple,
+          ),
         if (widget.openAndroid != null)
-          _TextArrowButton(label: 'Google Play', onTap: widget.openAndroid),
+          _storeButton(
+            icon: Icons.android,
+            topLabel: 'Get it on',
+            bottomLabel: 'Google Play',
+            onPressed: widget.openAndroid,
+          ),
         if (widget.openWebpage != null)
-          _TextArrowButton(label: 'Webpage', onTap: widget.openWebpage),
+          _storeButton(
+            icon: Icons.web,
+            topLabel: 'Open',
+            bottomLabel: 'Webpage',
+            onPressed: widget.openWebpage,
+          ),
       ],
+    );
+  }
+
+  Widget _storeButton({
+    required IconData icon,
+    required String topLabel,
+    required String bottomLabel,
+    required VoidCallback? onPressed,
+  }) {
+    return ElevatedButton.icon(
+      icon: Icon(icon, color: Colors.white, size: 30),
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        backgroundColor: Colors.black,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: Colors.black),
+        ),
+        minimumSize: const Size(150, 42),
+      ),
+      label: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            topLabel,
+            style: const TextStyle(
+              color: Colors.white70,
+              fontSize: 10,
+              fontWeight: FontWeight.w300,
+            ),
+          ),
+          Text(
+            bottomLabel,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+      onPressed: onPressed,
     );
   }
 
@@ -261,66 +318,3 @@ class _RiseIn extends StatelessWidget {
   }
 }
 
-class _TextArrowButton extends StatefulWidget {
-  const _TextArrowButton({required this.label, this.onTap});
-
-  final String label;
-  final VoidCallback? onTap;
-
-  @override
-  State<_TextArrowButton> createState() => _TextArrowButtonState();
-}
-
-class _TextArrowButtonState extends State<_TextArrowButton> {
-  bool _hovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: AnimatedContainer(
-          duration: Constants.animFast,
-          curve: Curves.easeOutCubic,
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
-            color: _hovered ? Constants.ink : Colors.transparent,
-            border: Border.all(
-              color: _hovered ? Constants.ink : Constants.ink.withAlpha(46),
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AnimatedDefaultTextStyle(
-                duration: Constants.animFast,
-                curve: Curves.easeOutCubic,
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                      color: _hovered ? Constants.canvas : Constants.ink,
-                    ),
-                child: Text(widget.label),
-              ),
-              const Gap(8),
-              TweenAnimationBuilder<Color?>(
-                tween: ColorTween(
-                  end: _hovered ? Constants.canvas : Constants.ink,
-                ),
-                duration: Constants.animFast,
-                curve: Curves.easeOutCubic,
-                builder: (context, color, child) => Icon(
-                  Icons.north_east,
-                  size: 14,
-                  color: color,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}

@@ -100,10 +100,9 @@ class _TextOptionWidgetState extends State<TextOptionWidget>
                           children: [
                             Text(
                               widget.title.toUpperCase(),
-                              style: GoogleFonts.fraunces(
+                              style: GoogleFonts.kanit(
                                 fontSize: titleSize,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: -0.5,
+                                fontWeight: FontWeight.w900,
                                 height: 1.0,
                                 color: Constants.ink,
                               ),
