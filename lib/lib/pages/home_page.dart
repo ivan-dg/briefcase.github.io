@@ -77,6 +77,7 @@ class _HomePageState extends State<HomePage>
             description:
                 'Sqwabl: El fin del caos en tus planes grupales ¿Cansado de cientos de mensajes para no llegar a nada? Sqwabl es la solución definitiva para transformar la indecisión en acción. Olvídate de los chats infinitos y las conversaciones circulares; nuestra app simplifica la toma de decisiones grupales mediante encuestas visuales y rápidas que te permiten concretar planes en segundos. Desde elegir el próximo destino de vacaciones hasta decidir qué cenar hoy, Sqwabl centraliza las opciones y los votos en un solo lugar. Además, con nuestras listas compartidas, puedes organizar ideas futuras y gestionar eventos sin estrés. Es la herramienta de productividad social diseñada para que pases menos tiempo debatiendo y más tiempo disfrutando. ¡Descarga Sqwabl y haz que ponerse de acuerdo sea la parte más fácil de tu día!',
             coverImage: 'assets/sqwabl_1.png',
+            colorImagesBack: const Color(0xff60308f),
             images: const [
               'assets/sqwabl_2.png',
               'assets/sqwabl_5.png',
@@ -97,6 +98,7 @@ class _HomePageState extends State<HomePage>
             description:
                 '¡Bienvenido a Athlete Arcade! El punto de encuentro donde cada jugador de pickleball se convierte en leyenda. Aquí no solo juegas: compites, mejoras y descubres hasta dónde puedes llegar. Con Athlete Arcade podrás: Crear y liderar torneos que pondrán a prueba tus habilidades, armar o unirte a partidas con jugadores de todos los niveles, ver tus estadísticas y evolución, para que cada punto cuente. Aqui podras revisar tus puntajes y partidos en un solo lugar, explorar perfiles de otros jugadores y conectar con la comunidad, coleccionar medallas y logros cada vez que conquistas la cancha. Prepárate para vivir el pickleball como nunca antes, tu aventura comienza aquí.',
             coverImage: 'assets/athl_ar_1.jpg',
+            colorImagesBack: const Color(0xff00aa57),
             images: [
               'assets/athl_ar_5.png',
               'assets/athl_ar_2.png',
@@ -115,6 +117,7 @@ class _HomePageState extends State<HomePage>
             description:
                 'Bienvenido a Doctor Virtual, tu asistente de salud impulsado por inteligencia artificial. Este chat ha sido diseñado para responder tus preguntas sobre salud, brindarte información confiable y orientarte en temas médicos de manera rápida y accesible. Nuestro objetivo es proporcionarte asesoramiento basado en conocimientos médicos actualizados, ayudándote a comprender síntomas, condiciones y posibles cuidados. Sin embargo, recuerda que Doctor Virtual no sustituye la opinión de un médico profesional,i presentas una emergencia o necesitas un diagnóstico preciso, es fundamental acudir a un especialista. Escríbenos tu consulta y recibe respuestas inmediatas para aclarar dudas sobre bienestar, prevención de enfermedades y hábitos saludables. ¡Tu salud es nuestra prioridad!',
             coverImage: 'assets/doctor_ia_1.jpg',
+            colorImagesBack: const Color(0xFF00CCFF),
             images: const [
               'assets/doctor_ia_2.png',
               'assets/doctor_ia_3.png',
@@ -133,6 +136,7 @@ class _HomePageState extends State<HomePage>
             description:
                 '¡Descarga Pubs y descubre los mejores lugares de tu ciudad! Con Pubs podrás. Explorar los mejores bares y pubs, ver menús detallados, encontrar eventos y promociones exclusivas, pedir tus canciones favoritas, votar por las canciones que más te gustan (¡las más votadas sonarán en el pub!). Conocer nuevas personas en el lugar donde estés.',
             coverImage: 'assets/bar.webp',
+            colorImagesBack: const Color(0XFFE9FB00),
             images: const [
               'assets/pubs_1.png',
               'assets/pubs_2.png',
@@ -154,6 +158,7 @@ class _HomePageState extends State<HomePage>
             description:
                 'Bievenido a TRIPPSTER, en Trippster podrás conectar con viajeros de todo el mundo y compartir con ellos experiencias auténticas. Descubre el Alma Viajera: Quiénes Somos en Trippster, En Trippster, somos apasionados exploradores y expertos en hacer realidad tus sueños de viaje. Con años de experiencia en el sector, nos enorgullece ofrecer experiencias únicas y personalizadas que van más allá de lo convencional. Nuestro compromiso es convertir cada viaje en una aventura inolvidable, brindando un servicio excepcional y descubriendo destinos extraordinarios, ¡Bienvenido a Trippster, donde cada viaje es una historia por contar!',
             coverImage: 'assets/trippster_6.png',
+            colorImagesBack: const Color(0XFF00C535),
             images: [
               'assets/trippster_1.png',
               'assets/trippster_3.png',
@@ -173,6 +178,7 @@ class _HomePageState extends State<HomePage>
             description:
                 'Descarga MePet y encuentra todo lo que tu mascota necesita en un solo lugar. Con MePet, podrás: Comprar alimentos, juguetes, medicinas y más. Explorar nuestra sección de adopción para encontrar a tu nuevo mejor amigo podras con MePet poner en adopción a mascotas que necesitan un hogar. MePet facilita el proceso de adopción y ayuda a muchos animalitos a encontrar un hogar amoroso. ¡Descarga nuestra app y compártela con tus amigos para hacer la diferencia! Ayuda a más animales a encontrar un hogar ¡Con MePet, todos ganan! 🐾💖',
             coverImage: 'assets/mepet_1.png',
+            colorImagesBack: const Color(0xFFB9C4FF),
             images: [
               'assets/mepet_2.png',
               'assets/mepet_3.png',
@@ -191,6 +197,7 @@ class _HomePageState extends State<HomePage>
             description:
                 '¡Bienvenido a Consultorio Virtual, tu asistente personal para gestionar y mejorar tu salud!. Con Consultorio Virtual podrás: Monitorear indicadores clave de salud como peso, presión arterial, ritmo cardíaco y más. Recibir recordatorios y alertas para tomar medicación o realizar chequeos importantes. Visualizar tu evolución con gráficos y estadísticas detalladas. Acceder a consejos personalizados y recomendaciones basadas en tus datos de salud. Compartir tu información con médicos y profesionales de la salud de forma segura. Empieza a tomar el control de tu bienestar hoy mismo. ¡Descarga Consultorio Virtual y lleva un registro completo de tu salud en la palma de tu mano!',
             coverImage: 'assets/cons_virt_1.jpg',
+            colorImagesBack: const Color(0XFF2A52A3),
             images: [
               'assets/cons_virt_2.png',
               'assets/cons_virt_3.png',

@@ -13,6 +13,7 @@ class DetailInfoPage extends StatefulWidget {
     required this.description,
     required this.coverImage,
     required this.images,
+    this.colorImagesBack = Constants.panel,
     this.openAndroid,
     this.openApple,
     this.openWebpage,
@@ -22,6 +23,7 @@ class DetailInfoPage extends StatefulWidget {
   final String description;
   final String coverImage;
   final List<String> images;
+  final Color colorImagesBack;
   final VoidCallback? openApple;
   final VoidCallback? openAndroid;
   final VoidCallback? openWebpage;
@@ -59,28 +61,34 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
   Widget _buildDescription(BuildContext context, {required bool wide}) {
     final (lede, rest) = _splitDescription();
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 680),
-          child: Text(
-            lede,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: wide ? 19 : 16.5,
-                  height: 1.55,
-                ),
+        Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 680),
+            child: Text(
+              lede,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    fontSize: wide ? 19 : 16.5,
+                    height: 1.55,
+                  ),
+            ),
           ),
         ),
         const Gap(24),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 640),
-          child: Text(
-            rest,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: wide ? 16 : 14.5,
-                  height: 1.9,
-                  color: Constants.ink.withAlpha(210),
-                ),
+        Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 640),
+            child: Text(
+              rest,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: wide ? 16 : 14.5,
+                    height: 1.9,
+                    color: Constants.ink.withAlpha(210),
+                  ),
+            ),
           ),
         ),
       ],
@@ -91,7 +99,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
     if (wide) {
       return Container(
         width: double.infinity,
-        color: Constants.panel,
+        color: widget.colorImagesBack,
         padding: const EdgeInsets.symmetric(vertical: 44),
         child: Center(
           child: SingleChildScrollView(
@@ -108,7 +116,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
     }
     return Container(
       width: double.infinity,
-      color: Constants.panel,
+      color: widget.colorImagesBack,
       padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
       child: Column(
         children: widget.images
