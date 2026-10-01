@@ -1,3 +1,4 @@
+import 'package:briefcase/constants/constants.dart';
 import 'package:briefcase/lib/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,28 +14,44 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.dark,
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0XFF4833FE),
-        textTheme: GoogleFonts.kanitTextTheme(
-          TextTheme(
-            titleMedium: const TextStyle(
-              color: Colors.white,
-              fontSize: 45,
-              fontWeight: FontWeight.w800,
-              height: 0.75,
-            ),
-            titleLarge: const TextStyle(
-              color: Colors.black,
-              fontSize: 85,
-              fontWeight: FontWeight.w900,
-              height: 0.9,
-            ),
-            bodySmall: TextStyle(
-              fontSize: 14,
-              color: Colors.white.withAlpha((0.9 * 255).toInt()),
-              fontWeight: FontWeight.w300,
-            ),
+        scaffoldBackgroundColor: Constants.canvas,
+        textTheme: TextTheme(
+          titleLarge: GoogleFonts.fraunces(
+            fontSize: 62,
+            fontWeight: FontWeight.w500,
+            letterSpacing: -1,
+            height: 1.02,
+            color: Constants.ink,
+          ),
+          titleMedium: GoogleFonts.fraunces(
+            fontSize: 46,
+            fontWeight: FontWeight.w500,
+            letterSpacing: -0.5,
+            height: 1.04,
+            color: Constants.ink,
+          ),
+          bodyLarge: GoogleFonts.instrumentSans(
+            fontSize: 19,
+            fontWeight: FontWeight.w400,
+            height: 1.6,
+            color: Constants.ink,
+          ),
+          bodyMedium: GoogleFonts.instrumentSans(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            height: 1.8,
+            color: Constants.ink,
+          ),
+          labelMedium: GoogleFonts.instrumentSans(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Constants.ink,
+          ),
+          bodySmall: GoogleFonts.spaceMono(
+            fontSize: 12.5,
+            height: 1.7,
+            color: Constants.inkSecondary,
           ),
         ),
       ),

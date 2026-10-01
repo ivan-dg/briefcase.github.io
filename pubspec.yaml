@@ -12,7 +12,6 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   gap: ^3.0.1
   google_fonts: ^8.0.2
-  stroke_text: ^0.0.3
   url_launcher: ^6.3.0
 
 dev_dependencies:

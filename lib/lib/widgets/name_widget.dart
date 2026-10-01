@@ -1,11 +1,10 @@
+import 'package:briefcase/constants/constants.dart';
 import 'package:flutter/material.dart';
-
-import '../pages/home_page.dart';
 
 class NameWidget extends StatefulWidget {
   const NameWidget({
     super.key,
-    this.color = Colors.white,
+    this.color = Constants.ink,
   });
 
   final Color? color;
@@ -16,17 +15,18 @@ class NameWidget extends StatefulWidget {
 
 class _NameWidgetState extends State<NameWidget>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 900),
     );
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+    _animation =
+        CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
     _controller.forward();
   }
 
@@ -40,20 +40,16 @@ class _NameWidgetState extends State<NameWidget>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _animation,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => const HomePage(),
-            ),
-          );
-        },
-        child: Text(
-          'IVAN \nGUSTIN \nCO.',
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: widget.color,
-              ),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () => Navigator.of(context).maybePop(),
+          child: Text(
+            'IVAN \nGUSTIN \nCO.',
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: widget.color,
+                ),
+          ),
         ),
       ),
     );

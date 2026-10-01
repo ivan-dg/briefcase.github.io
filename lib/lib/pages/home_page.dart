@@ -16,17 +16,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 900),
     );
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+    _animation =
+        CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
     _controller.forward();
   }
 
@@ -36,7 +37,6 @@ class _HomePageState extends State<HomePage>
     super.dispose();
   }
 
-  // Función para abrir el enlace
   Future<void> _launchURL(String url) async {
     final Uri toLaunch = Uri.parse(url);
     if (!await launchUrl(toLaunch, mode: LaunchMode.inAppBrowserView)) {
@@ -44,39 +44,198 @@ class _HomePageState extends State<HomePage>
     }
   }
 
+  void _openDetail(DetailInfoPage page) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(builder: (BuildContext context) => page),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TweenAnimationBuilder(
-        duration: const Duration(seconds: 1),
-        tween: ColorTween(
-          begin: Colors.grey,
-          end: Theme.of(context).scaffoldBackgroundColor,
-        ),
-        builder: (BuildContext context, dynamic value, Widget? child) {
-          return Container(
-            color: value,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                if (constraints.maxWidth > 800) {
-                  // navegador o tablet en horizontal
-                  return _buildWideLayout(context);
-                } else {
-                  // tablet en vertical o celular
-                  return _buildNarrowLayout(context);
-                }
-              },
-            ),
-          );
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth > 800) {
+            return _buildWideLayout(context);
+          } else {
+            return _buildNarrowLayout(context);
+          }
         },
+      ),
+    );
+  }
+
+  List<Widget> _projectRows() {
+    return [
+      TextOptionWidget(
+        index: 1,
+        title: 'sqwabl',
+        onTap: () => _openDetail(
+          DetailInfoPage(
+            title: 'sqwabl',
+            description:
+                'Sqwabl: El fin del caos en tus planes grupales ¿Cansado de cientos de mensajes para no llegar a nada? Sqwabl es la solución definitiva para transformar la indecisión en acción. Olvídate de los chats infinitos y las conversaciones circulares; nuestra app simplifica la toma de decisiones grupales mediante encuestas visuales y rápidas que te permiten concretar planes en segundos. Desde elegir el próximo destino de vacaciones hasta decidir qué cenar hoy, Sqwabl centraliza las opciones y los votos en un solo lugar. Además, con nuestras listas compartidas, puedes organizar ideas futuras y gestionar eventos sin estrés. Es la herramienta de productividad social diseñada para que pases menos tiempo debatiendo y más tiempo disfrutando. ¡Descarga Sqwabl y haz que ponerse de acuerdo sea la parte más fácil de tu día!',
+            coverImage: 'assets/sqwabl_1.png',
+            images: const [
+              'assets/sqwabl_2.png',
+              'assets/sqwabl_5.png',
+              'assets/sqwabl_3.png',
+              'assets/sqwabl_4.png',
+              'assets/sqwabl_6.png',
+            ],
+            openWebpage: () => _launchURL(Constants.urlSqwablWeb),
+          ),
+        ),
+      ),
+      TextOptionWidget(
+        index: 2,
+        title: 'athlete arcade',
+        onTap: () => _openDetail(
+          const DetailInfoPage(
+            title: 'athlete arcade',
+            description:
+                '¡Bienvenido a Athlete Arcade! El punto de encuentro donde cada jugador de pickleball se convierte en leyenda. Aquí no solo juegas: compites, mejoras y descubres hasta dónde puedes llegar. Con Athlete Arcade podrás: Crear y liderar torneos que pondrán a prueba tus habilidades, armar o unirte a partidas con jugadores de todos los niveles, ver tus estadísticas y evolución, para que cada punto cuente. Aqui podras revisar tus puntajes y partidos en un solo lugar, explorar perfiles de otros jugadores y conectar con la comunidad, coleccionar medallas y logros cada vez que conquistas la cancha. Prepárate para vivir el pickleball como nunca antes, tu aventura comienza aquí.',
+            coverImage: 'assets/athl_ar_1.jpg',
+            images: [
+              'assets/athl_ar_5.png',
+              'assets/athl_ar_2.png',
+              'assets/athl_ar_3.png',
+              'assets/athl_ar_4.png',
+            ],
+          ),
+        ),
+      ),
+      TextOptionWidget(
+        index: 3,
+        title: 'DOC IA',
+        onTap: () => _openDetail(
+          DetailInfoPage(
+            title: 'DOC IA',
+            description:
+                'Bienvenido a Doctor Virtual, tu asistente de salud impulsado por inteligencia artificial. Este chat ha sido diseñado para responder tus preguntas sobre salud, brindarte información confiable y orientarte en temas médicos de manera rápida y accesible. Nuestro objetivo es proporcionarte asesoramiento basado en conocimientos médicos actualizados, ayudándote a comprender síntomas, condiciones y posibles cuidados. Sin embargo, recuerda que Doctor Virtual no sustituye la opinión de un médico profesional,i presentas una emergencia o necesitas un diagnóstico preciso, es fundamental acudir a un especialista. Escríbenos tu consulta y recibe respuestas inmediatas para aclarar dudas sobre bienestar, prevención de enfermedades y hábitos saludables. ¡Tu salud es nuestra prioridad!',
+            coverImage: 'assets/doctor_ia_1.jpg',
+            images: const [
+              'assets/doctor_ia_2.png',
+              'assets/doctor_ia_3.png',
+              'assets/doctor_ia_4.png',
+            ],
+            openWebpage: () => _launchURL(Constants.webpageDocIA),
+          ),
+        ),
+      ),
+      TextOptionWidget(
+        index: 4,
+        title: 'PUBS',
+        onTap: () => _openDetail(
+          DetailInfoPage(
+            title: 'PUBS',
+            description:
+                '¡Descarga Pubs y descubre los mejores lugares de tu ciudad! Con Pubs podrás. Explorar los mejores bares y pubs, ver menús detallados, encontrar eventos y promociones exclusivas, pedir tus canciones favoritas, votar por las canciones que más te gustan (¡las más votadas sonarán en el pub!). Conocer nuevas personas en el lugar donde estés.',
+            coverImage: 'assets/bar.webp',
+            images: const [
+              'assets/pubs_1.png',
+              'assets/pubs_2.png',
+              'assets/pubs_3.png',
+              'assets/pubs_4.png',
+            ],
+            openWebpage: () => _launchURL(Constants.webpagePubs),
+            openAndroid: () => _launchURL(Constants.urlAndroidPubs),
+            openApple: () => _launchURL(Constants.urlIosPubs),
+          ),
+        ),
+      ),
+      TextOptionWidget(
+        index: 5,
+        title: 'TRIPPSTER',
+        onTap: () => _openDetail(
+          const DetailInfoPage(
+            title: 'TRIPPSTER',
+            description:
+                'Bievenido a TRIPPSTER, en Trippster podrás conectar con viajeros de todo el mundo y compartir con ellos experiencias auténticas. Descubre el Alma Viajera: Quiénes Somos en Trippster, En Trippster, somos apasionados exploradores y expertos en hacer realidad tus sueños de viaje. Con años de experiencia en el sector, nos enorgullece ofrecer experiencias únicas y personalizadas que van más allá de lo convencional. Nuestro compromiso es convertir cada viaje en una aventura inolvidable, brindando un servicio excepcional y descubriendo destinos extraordinarios, ¡Bienvenido a Trippster, donde cada viaje es una historia por contar!',
+            coverImage: 'assets/trippster_6.png',
+            images: [
+              'assets/trippster_1.png',
+              'assets/trippster_3.png',
+              'assets/trippster_5.png',
+              'assets/trippster_4.png',
+              'assets/trippster_2.png',
+            ],
+          ),
+        ),
+      ),
+      TextOptionWidget(
+        index: 6,
+        title: 'MEPET',
+        onTap: () => _openDetail(
+          const DetailInfoPage(
+            title: 'MEPET',
+            description:
+                'Descarga MePet y encuentra todo lo que tu mascota necesita en un solo lugar. Con MePet, podrás: Comprar alimentos, juguetes, medicinas y más. Explorar nuestra sección de adopción para encontrar a tu nuevo mejor amigo podras con MePet poner en adopción a mascotas que necesitan un hogar. MePet facilita el proceso de adopción y ayuda a muchos animalitos a encontrar un hogar amoroso. ¡Descarga nuestra app y compártela con tus amigos para hacer la diferencia! Ayuda a más animales a encontrar un hogar ¡Con MePet, todos ganan! 🐾💖',
+            coverImage: 'assets/mepet_1.png',
+            images: [
+              'assets/mepet_2.png',
+              'assets/mepet_3.png',
+              'assets/mepet_4.png',
+              'assets/mepet_5.png',
+            ],
+          ),
+        ),
+      ),
+      TextOptionWidget(
+        index: 7,
+        title: 'CONSULTORIO VIRTUAL',
+        onTap: () => _openDetail(
+          const DetailInfoPage(
+            title: 'CONSULTORIO VIRTUAL',
+            description:
+                '¡Bienvenido a Consultorio Virtual, tu asistente personal para gestionar y mejorar tu salud!. Con Consultorio Virtual podrás: Monitorear indicadores clave de salud como peso, presión arterial, ritmo cardíaco y más. Recibir recordatorios y alertas para tomar medicación o realizar chequeos importantes. Visualizar tu evolución con gráficos y estadísticas detalladas. Acceder a consejos personalizados y recomendaciones basadas en tus datos de salud. Compartir tu información con médicos y profesionales de la salud de forma segura. Empieza a tomar el control de tu bienestar hoy mismo. ¡Descarga Consultorio Virtual y lleva un registro completo de tu salud en la palma de tu mano!',
+            coverImage: 'assets/cons_virt_1.jpg',
+            images: [
+              'assets/cons_virt_2.png',
+              'assets/cons_virt_3.png',
+              'assets/cons_virt_5.png',
+              'assets/cons_virt_4.png',
+            ],
+          ),
+        ),
+      ),
+    ];
+  }
+
+  Widget _metaColumn(BuildContext context) {
+    final mono = Theme.of(context).textTheme.bodySmall!;
+    return FadeTransition(
+      opacity: _animation,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Portfolio of Ivan Gustin', style: mono),
+          const Gap(4),
+          Text('Software Engineer', style: mono),
+          const Gap(24),
+          Text('Pasto, Colombia', style: mono),
+          const Gap(4),
+          SelectableText(
+            'ivandgustin@gmail.com',
+            style: mono.copyWith(
+              color: Constants.ink,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const Gap(24),
+          _MonoLink(
+            label: 'LinkedIn ↗',
+            onTap: () => _launchURL('https://www.linkedin.com/in/ivandgu/'),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildWideLayout(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(
@@ -86,303 +245,24 @@ class _HomePageState extends State<HomePage>
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               const NameWidget(),
-              const Gap(30),
-              FadeTransition(
-                opacity: _animation,
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Portfolio of Ivan Gustin',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                        Text(
-                          'Software Engineer',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
-                    ),
-                    const Gap(30),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Pasto, Colombia',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                        SelectableText(
-                          'ivandgustin@gmail.com',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                    const Gap(30),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () => _launchURL(
-                              'https://www.linkedin.com/in/ivandgu/'),
-                          child: Row(
-                            children: [
-                              Text(
-                                '01',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      fontWeight: FontWeight.w100,
-                                      fontSize: 10,
-                                    ),
-                              ),
-                              const Gap(15),
-                              Text(
-                                'Linkedin',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(fontWeight: FontWeight.w700),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              const Gap(40),
+              _metaColumn(context),
             ],
           ),
         ),
-        const Spacer(),
-        SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 30),
-            child: FadeTransition(
-              opacity: _animation,
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.only(
+                left: 40, top: 60, bottom: 60, right: Constants.paddingH),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 720),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const Gap(50),
-                  TextOptionWidget(
-                    title: 'sqwabl',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: const Color(0xff60308f),
-                            colorBackground: Colors.white,
-                            textColorCover: Colors.white,
-                            title: 'sqwabl',
-                            description:
-                                'Sqwabl: El fin del caos en tus planes grupales ¿Cansado de cientos de mensajes para no llegar a nada? Sqwabl es la solución definitiva para transformar la indecisión en acción. Olvídate de los chats infinitos y las conversaciones circulares; nuestra app simplifica la toma de decisiones grupales mediante encuestas visuales y rápidas que te permiten concretar planes en segundos. Desde elegir el próximo destino de vacaciones hasta decidir qué cenar hoy, Sqwabl centraliza las opciones y los votos en un solo lugar. Además, con nuestras listas compartidas, puedes organizar ideas futuras y gestionar eventos sin estrés. Es la herramienta de productividad social diseñada para que pases menos tiempo debatiendo y más tiempo disfrutando. ¡Descarga Sqwabl y haz que ponerse de acuerdo sea la parte más fácil de tu día!',
-                            coverImage: 'assets/sqwabl_1.png',
-                            images: const [
-                              'assets/sqwabl_2.png',
-                              'assets/sqwabl_5.png',
-                              'assets/sqwabl_3.png',
-                              'assets/sqwabl_4.png',
-                              'assets/sqwabl_6.png',
-                            ],
-                            openWebpage: () {
-                              _launchURL(Constants.urlSqwablWeb);
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.075,
-                  ),
-                  TextOptionWidget(
-                    title: 'athlete',
-                    subtitle: 'arcade',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: Color(0xff00aa57),
-                            colorBackground: Colors.white,
-                            textColorCover: Colors.white,
-                            title: 'athlete arcade',
-                            description:
-                                '¡Bienvenido a Athlete Arcade! El punto de encuentro donde cada jugador de pickleball se convierte en leyenda. Aquí no solo juegas: compites, mejoras y descubres hasta dónde puedes llegar. Con Athlete Arcade podrás: Crear y liderar torneos que pondrán a prueba tus habilidades, armar o unirte a partidas con jugadores de todos los niveles, ver tus estadísticas y evolución, para que cada punto cuente. Aqui podras revisar tus puntajes y partidos en un solo lugar, explorar perfiles de otros jugadores y conectar con la comunidad, coleccionar medallas y logros cada vez que conquistas la cancha. Prepárate para vivir el pickleball como nunca antes, tu aventura comienza aquí.',
-                            coverImage: 'assets/athl_ar_1.jpg',
-                            images: [
-                              'assets/athl_ar_5.png',
-                              'assets/athl_ar_2.png',
-                              'assets/athl_ar_3.png',
-                              'assets/athl_ar_4.png',
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.075,
-                  ),
-                  TextOptionWidget(
-                    title: 'DOC IA',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: const Color(0xFF00CCFF),
-                            colorBackground: Colors.white,
-                            textColorCover: Colors.black,
-                            title: 'DOC IA',
-                            description:
-                                'Bienvenido a Doctor Virtual, tu asistente de salud impulsado por inteligencia artificial. Este chat ha sido diseñado para responder tus preguntas sobre salud, brindarte información confiable y orientarte en temas médicos de manera rápida y accesible. Nuestro objetivo es proporcionarte asesoramiento basado en conocimientos médicos actualizados, ayudándote a comprender síntomas, condiciones y posibles cuidados. Sin embargo, recuerda que Doctor Virtual no sustituye la opinión de un médico profesional,i presentas una emergencia o necesitas un diagnóstico preciso, es fundamental acudir a un especialista. Escríbenos tu consulta y recibe respuestas inmediatas para aclarar dudas sobre bienestar, prevención de enfermedades y hábitos saludables. ¡Tu salud es nuestra prioridad!',
-                            coverImage: 'assets/doctor_ia_1.jpg',
-                            images: const [
-                              'assets/doctor_ia_2.png',
-                              'assets/doctor_ia_3.png',
-                              'assets/doctor_ia_4.png',
-                            ],
-                            openWebpage: () {
-                              _launchURL(Constants.webpageDocIA);
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.075,
-                  ),
-                  TextOptionWidget(
-                    title: 'PUBS',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => DetailInfoPage(
-                            textColor: Colors.white,
-                            colorImagesBack: const Color(0XFFE9FB00),
-                            colorBackground: Colors.black,
-                            title: 'PUBS',
-                            description:
-                                '¡Descarga Pubs y descubre los mejores lugares de tu ciudad! Con Pubs podrás. Explorar los mejores bares y pubs, ver menús detallados, encontrar eventos y promociones exclusivas, pedir tus canciones favoritas, votar por las canciones que más te gustan (¡las más votadas sonarán en el pub!). Conocer nuevas personas en el lugar donde estés.',
-                            coverImage: 'assets/bar.webp',
-                            images: const [
-                              'assets/pubs_1.png',
-                              'assets/pubs_2.png',
-                              'assets/pubs_3.png',
-                              'assets/pubs_4.png',
-                            ],
-                            openWebpage: () {
-                              _launchURL(Constants.webpagePubs);
-                            },
-                            openAndroid: () {
-                              _launchURL(Constants.urlAndroidPubs);
-                            },
-                            openApple: () {
-                              _launchURL(Constants.urlIosPubs);
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.075,
-                  ),
-                  TextOptionWidget(
-                    title: 'TRIPPSTER',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: Color(0XFF00C535),
-                            colorBackground: Colors.white,
-                            title: 'TRIPPSTER',
-                            description:
-                                'Bievenido a TRIPPSTER, en Trippster podrás conectar con viajeros de todo el mundo y compartir con ellos experiencias auténticas. Descubre el Alma Viajera: Quiénes Somos en Trippster, En Trippster, somos apasionados exploradores y expertos en hacer realidad tus sueños de viaje. Con años de experiencia en el sector, nos enorgullece ofrecer experiencias únicas y personalizadas que van más allá de lo convencional. Nuestro compromiso es convertir cada viaje en una aventura inolvidable, brindando un servicio excepcional y descubriendo destinos extraordinarios, ¡Bienvenido a Trippster, donde cada viaje es una historia por contar!',
-                            coverImage: 'assets/trippster_6.png',
-                            images: [
-                              'assets/trippster_1.png',
-                              'assets/trippster_3.png',
-                              'assets/trippster_5.png',
-                              'assets/trippster_4.png',
-                              'assets/trippster_2.png'
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.075,
-                  ),
-                  TextOptionWidget(
-                    title: 'MEPET',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: Color(0xFFB9C4FF),
-                            colorBackground: Colors.white,
-                            title: 'MEPET',
-                            description:
-                                'Descarga MePet y encuentra todo lo que tu mascota necesita en un solo lugar. Con MePet, podrás: Comprar alimentos, juguetes, medicinas y más. Explorar nuestra sección de adopción para encontrar a tu nuevo mejor amigo podras con MePet poner en adopción a mascotas que necesitan un hogar. MePet facilita el proceso de adopción y ayuda a muchos animalitos a encontrar un hogar amoroso. ¡Descarga nuestra app y compártela con tus amigos para hacer la diferencia! Ayuda a más animales a encontrar un hogar ¡Con MePet, todos ganan! 🐾💖',
-                            coverImage: 'assets/mepet_1.png',
-                            images: [
-                              'assets/mepet_2.png',
-                              'assets/mepet_3.png',
-                              'assets/mepet_4.png',
-                              'assets/mepet_5.png'
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.075,
-                  ),
-                  TextOptionWidget(
-                    title: 'CONSULTORIO',
-                    subtitle: 'VIRTUAL',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: Color(0XFF2A52A3),
-                            colorBackground: Color(0XFFF2F2F2),
-                            title: 'CONSULTORIO VIRUTAL',
-                            description:
-                                '¡Bienvenido a Consultorio Virtual, tu asistente personal para gestionar y mejorar tu salud!. Con Consultorio Virtual podrás: Monitorear indicadores clave de salud como peso, presión arterial, ritmo cardíaco y más. Recibir recordatorios y alertas para tomar medicación o realizar chequeos importantes. Visualizar tu evolución con gráficos y estadísticas detalladas. Acceder a consejos personalizados y recomendaciones basadas en tus datos de salud. Compartir tu información con médicos y profesionales de la salud de forma segura. Empieza a tomar el control de tu bienestar hoy mismo. ¡Descarga Consultorio Virtual y lleva un registro completo de tu salud en la palma de tu mano!',
-                            coverImage: 'assets/cons_virt_1.jpg',
-                            images: [
-                              'assets/cons_virt_2.png',
-                              'assets/cons_virt_3.png',
-                              'assets/cons_virt_5.png',
-                              'assets/cons_virt_4.png'
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.075,
-                  ),
-                  const Gap(50),
-                ],
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _projectRows(),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -390,292 +270,50 @@ class _HomePageState extends State<HomePage>
   Widget _buildNarrowLayout(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FadeTransition(
-              opacity: _animation,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Gap(20),
-                  TextOptionWidget(
-                    alignment: Alignment.topLeft,
-                    title: 'sqwabl',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: const Color(0xff60308f),
-                            colorBackground: Colors.white,
-                            textColorCover: Colors.white,
-                            title: 'sqwabl',
-                            description:
-                                'Sqwabl: El fin del caos en tus planes grupales ¿Cansado de cientos de mensajes para no llegar a nada? Sqwabl es la solución definitiva para transformar la indecisión en acción. Olvídate de los chats infinitos y las conversaciones circulares; nuestra app simplifica la toma de decisiones grupales mediante encuestas visuales y rápidas que te permiten concretar planes en segundos. Desde elegir el próximo destino de vacaciones hasta decidir qué cenar hoy, Sqwabl centraliza las opciones y los votos en un solo lugar. Además, con nuestras listas compartidas, puedes organizar ideas futuras y gestionar eventos sin estrés. Es la herramienta de productividad social diseñada para que pases menos tiempo debatiendo y más tiempo disfrutando. ¡Descarga Sqwabl y haz que ponerse de acuerdo sea la parte más fácil de tu día!',
-                            coverImage: 'assets/sqwabl_1.png',
-                            images: const [
-                              'assets/sqwabl_2.png',
-                              'assets/sqwabl_5.png',
-                              'assets/sqwabl_3.png',
-                              'assets/sqwabl_4.png',
-                              'assets/sqwabl_6.png',
-                            ],
-                            openWebpage: () {
-                              _launchURL(Constants.urlSqwablWeb);
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.1,
-                  ),
-                  TextOptionWidget(
-                    alignment: Alignment.topLeft,
-                    title: 'athlete',
-                    subtitle: '     arcade',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: Color(0xff00aa57),
-                            colorBackground: Colors.white,
-                            textColorCover: Colors.white,
-                            title: 'athlete arcade',
-                            description:
-                                '¡Bienvenido a Athlete Arcade! El punto de encuentro donde cada jugador de pickleball se convierte en leyenda. Aquí no solo juegas: compites, mejoras y descubres hasta dónde puedes llegar. Con Athlete Arcade podrás: Crear y liderar torneos que pondrán a prueba tus habilidades, armar o unirte a partidas con jugadores de todos los niveles, ver tus estadísticas y evolución, para que cada punto cuente. Aqui podras revisar tus puntajes y partidos en un solo lugar, explorar perfiles de otros jugadores y conectar con la comunidad, coleccionar medallas y logros cada vez que conquistas la cancha. Prepárate para vivir el pickleball como nunca antes, tu aventura comienza aquí.',
-                            coverImage: 'assets/athl_ar_1.jpg',
-                            images: [
-                              'assets/athl_ar_5.png',
-                              'assets/athl_ar_2.png',
-                              'assets/athl_ar_3.png',
-                              'assets/athl_ar_4.png',
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.1,
-                  ),
-                  TextOptionWidget(
-                    alignment: Alignment.topLeft,
-                    title: 'DOC IA',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: const Color(0xFF00CCFF),
-                            colorBackground: Colors.white,
-                            textColorCover: Colors.black,
-                            title: 'DOC IA',
-                            description:
-                                'Bienvenido a Doctor Virtual, tu asistente de salud impulsado por inteligencia artificial. Este chat ha sido diseñado para responder tus preguntas sobre salud, brindarte información confiable y orientarte en temas médicos de manera rápida y accesible. Nuestro objetivo es proporcionarte asesoramiento basado en conocimientos médicos actualizados, ayudándote a comprender síntomas, condiciones y posibles cuidados. Sin embargo, recuerda que Doctor Virtual no sustituye la opinión de un médico profesional,i presentas una emergencia o necesitas un diagnóstico preciso, es fundamental acudir a un especialista. Escríbenos tu consulta y recibe respuestas inmediatas para aclarar dudas sobre bienestar, prevención de enfermedades y hábitos saludables. ¡Tu salud es nuestra prioridad!',
-                            coverImage: 'assets/doctor_ia_1.jpg',
-                            images: const [
-                              'assets/doctor_ia_2.png',
-                              'assets/doctor_ia_3.png',
-                              'assets/doctor_ia_4.png',
-                            ],
-                            openWebpage: () {
-                              _launchURL(Constants.webpageDocIA);
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.1,
-                  ),
-                  TextOptionWidget(
-                    alignment: Alignment.topLeft,
-                    title: 'PUBS',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => DetailInfoPage(
-                            textColor: Colors.white,
-                            colorImagesBack:
-                                Theme.of(context).scaffoldBackgroundColor,
-                            colorBackground: Colors.black,
-                            title: 'PUBS',
-                            description:
-                                '¡Descarga Pubs y descubre los mejores lugares de tu ciudad! Con Pubs podrás. Explorar los mejores bares y pubs, ver menús detallados, encontrar eventos y promociones exclusivas, pedir tus canciones favoritas, votar por las canciones que más te gustan (¡las más votadas sonarán en el pub!). Conocer nuevas personas en el lugar donde estés.',
-                            coverImage: 'assets/bar.webp',
-                            images: const [
-                              'assets/pubs_1.png',
-                              'assets/pubs_2.png',
-                              'assets/pubs_3.png',
-                              'assets/pubs_4.png',
-                            ],
-                            openWebpage: () {
-                              _launchURL(Constants.webpagePubs);
-                            },
-                            openAndroid: () {
-                              _launchURL(Constants.urlAndroidPubs);
-                            },
-                            openApple: () {
-                              _launchURL(Constants.urlIosPubs);
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.1,
-                  ),
-                  TextOptionWidget(
-                    alignment: Alignment.topLeft,
-                    title: 'TRIPPSTER',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: Color(0XFF00C535),
-                            colorBackground: Colors.white,
-                            title: 'TRIPPSTER',
-                            description:
-                                'Bievenido a TRIPPSTER, en Trippster podrás conectar con viajeros de todo el mundo y compartir con ellos experiencias auténticas. Descubre el Alma Viajera: Quiénes Somos en Trippster, En Trippster, somos apasionados exploradores y expertos en hacer realidad tus sueños de viaje. Con años de experiencia en el sector, nos enorgullece ofrecer experiencias únicas y personalizadas que van más allá de lo convencional. Nuestro compromiso es convertir cada viaje en una aventura inolvidable, brindando un servicio excepcional y descubriendo destinos extraordinarios, ¡Bienvenido a Trippster, donde cada viaje es una historia por contar!',
-                            coverImage: 'assets/trippster_6.png',
-                            images: [
-                              'assets/trippster_1.png',
-                              'assets/trippster_3.png',
-                              'assets/trippster_5.png',
-                              'assets/trippster_4.png',
-                              'assets/trippster_2.png'
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.1,
-                  ),
-                  TextOptionWidget(
-                    alignment: Alignment.topLeft,
-                    title: 'MEPET',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: Color(0xFFB9C4FF),
-                            colorBackground: Colors.white,
-                            title: 'MEPET',
-                            description:
-                                'Descarga MePet y encuentra todo lo que tu mascota necesita en un solo lugar. Con MePet, podrás: Comprar alimentos, juguetes, medicinas y más. Explorar nuestra sección de adopción para encontrar a tu nuevo mejor amigo podras con MePet poner en adopción a mascotas que necesitan un hogar. MePet facilita el proceso de adopción y ayuda a muchos animalitos a encontrar un hogar amoroso. ¡Descarga nuestra app y compártela con tus amigos para hacer la diferencia! Ayuda a más animales a encontrar un hogar ¡Con MePet, todos ganan! 🐾💖',
-                            coverImage: 'assets/mepet_1.png',
-                            images: [
-                              'assets/mepet_2.png',
-                              'assets/mepet_3.png',
-                              'assets/mepet_4.png',
-                              'assets/mepet_5.png'
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.1,
-                  ),
-                  TextOptionWidget(
-                    alignment: Alignment.topLeft,
-                    title: 'CONSULTORIO',
-                    subtitle: '     VIRTUAL',
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const DetailInfoPage(
-                            textColor: Colors.black,
-                            colorImagesBack: Color(0XFF2A52A3),
-                            colorBackground: Color(0XFFF2F2F2),
-                            title: 'CONSULTORIO VIRUTAL',
-                            description:
-                                '¡Bienvenido a Consultorio Virtual, tu asistente personal para gestionar y mejorar tu salud!. Con Consultorio Virtual podrás: Monitorear indicadores clave de salud como peso, presión arterial, ritmo cardíaco y más. Recibir recordatorios y alertas para tomar medicación o realizar chequeos importantes. Visualizar tu evolución con gráficos y estadísticas detalladas. Acceder a consejos personalizados y recomendaciones basadas en tus datos de salud. Compartir tu información con médicos y profesionales de la salud de forma segura. Empieza a tomar el control de tu bienestar hoy mismo. ¡Descarga Consultorio Virtual y lleva un registro completo de tu salud en la palma de tu mano!',
-                            coverImage: 'assets/cons_virt_1.jpg',
-                            images: [
-                              'assets/cons_virt_2.png',
-                              'assets/cons_virt_3.png',
-                              'assets/cons_virt_5.png',
-                              'assets/cons_virt_4.png'
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    hFactor: 0.1,
-                  ),
-                  const Gap(20),
-                ],
-              ),
-            ),
+            ..._projectRows(),
             const Gap(90),
             const NameWidget(),
-            const Gap(20),
-            FadeTransition(
-              opacity: _animation,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Portfolio of Ivan Gustin',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  Text(
-                    'Software Engineer',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const Gap(20),
-                  Text(
-                    'Pasto, Colombia',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  SelectableText(
-                    'ivandgustin@gmail.com',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(fontWeight: FontWeight.w700),
-                  ),
-                  const Gap(20),
-                  GestureDetector(
-                    onTap: () =>
-                        _launchURL('https://www.linkedin.com/in/ivandgu/'),
-                    child: Row(
-                      children: [
-                        Text(
-                          '01',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 10,
-                                  ),
-                        ),
-                        const Gap(10),
-                        Text(
-                          'Linkedin',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const Gap(28),
+            _metaColumn(context),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MonoLink extends StatefulWidget {
+  const _MonoLink({required this.label, this.onTap});
+
+  final String label;
+  final VoidCallback? onTap;
+
+  @override
+  State<_MonoLink> createState() => _MonoLinkState();
+}
+
+class _MonoLinkState extends State<_MonoLink> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedDefaultTextStyle(
+          duration: Constants.animFast,
+          curve: Curves.easeOutCubic,
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: _hovered ? Constants.accent : Constants.ink,
+              ),
+          child: Text(widget.label),
         ),
       ),
     );

@@ -1,10 +1,11 @@
+import 'package:briefcase/constants/constants.dart';
 import 'package:briefcase/lib/widgets/name_widget.dart';
 import 'package:flutter/material.dart';
 
 class HeaderPhoneWidget extends StatelessWidget {
-  const   HeaderPhoneWidget({
+  const HeaderPhoneWidget({
     super.key,
-    this.color = Colors.white,
+    this.color = Constants.ink,
   });
   final Color? color;
   @override

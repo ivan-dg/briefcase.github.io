@@ -14,13 +14,13 @@ class ImagePhoneWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.all(
-        Radius.circular(15),
+        Radius.circular(10),
       ),
       child: Image.asset(
         height: height,
         width: 250,
         url,
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
       ),
     );
   }

@@ -2,8 +2,6 @@ import 'package:briefcase/constants/constants.dart';
 import 'package:briefcase/lib/widgets/image_phone_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:stroke_text/stroke_text.dart';
 
 import '../widgets/header_phone_widget.dart';
 import '../widgets/name_widget.dart';
@@ -15,10 +13,6 @@ class DetailInfoPage extends StatefulWidget {
     required this.description,
     required this.coverImage,
     required this.images,
-    required this.colorBackground,
-    required this.colorImagesBack,
-    required this.textColor,
-    this.textColorCover = Colors.white,
     this.openAndroid,
     this.openApple,
     this.openWebpage,
@@ -28,13 +22,9 @@ class DetailInfoPage extends StatefulWidget {
   final String description;
   final String coverImage;
   final List<String> images;
-  final Color colorBackground;
-  final Color colorImagesBack;
-  final Color textColor;
-  final Color? textColorCover;
-  final Function()? openApple;
-  final Function()? openAndroid;
-  final Function()? openWebpage;
+  final VoidCallback? openApple;
+  final VoidCallback? openAndroid;
+  final VoidCallback? openWebpage;
 
   @override
   State<DetailInfoPage> createState() => _DetailInfoPageState();
@@ -44,547 +34,293 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TweenAnimationBuilder(
-        duration: const Duration(seconds: 2),
-        tween: ColorTween(
-          begin: Theme.of(context).scaffoldBackgroundColor,
-          end: widget.colorBackground,
-        ),
-        builder: (BuildContext context, dynamic value, Widget? child) {
-          return Container(
-            color: value,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                if (constraints.maxWidth > 800) {
-                  return _buildWideLayout(context);
-                } else {
-                  return _buildNarrowLayout(context);
-                }
-              },
-            ),
-          );
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth > 800) {
+            return _buildWideLayout(context);
+          } else {
+            return _buildNarrowLayout(context);
+          }
         },
       ),
     );
   }
 
-  List<String> _splitTextIntoThreeColumns(String text) {
-    List<String> paragraphs = text.split('.');
-    int totalLength = text.length;
-    int currentLength = 0;
-    int oneThirdPoint = (totalLength / 3).ceil();
-    int twoThirdPoint = (2 * totalLength / 4).ceil();
-    int firstSplitIndex = 1;
-    int secondSplitIndex = 0;
-
-    for (int i = 0; i < paragraphs.length; i++) {
-      currentLength += paragraphs[i].length + 1; // Adding 1 for the period.
-      if (currentLength >= oneThirdPoint && firstSplitIndex == 0) {
-        firstSplitIndex = i + 1;
-      } else if (currentLength >= twoThirdPoint) {
-        secondSplitIndex = i + 1;
-        break;
-      }
+  (String, String) _splitDescription() {
+    final idx = widget.description.indexOf('.');
+    if (idx < 0) {
+      return (widget.description, '');
     }
-
-    String firstColumn = '${paragraphs.sublist(0, firstSplitIndex).join('.')}.';
-    String secondColumn =
-        '${paragraphs.sublist(firstSplitIndex, secondSplitIndex).join('.')}.';
-    String thirdColumn = '${paragraphs.sublist(secondSplitIndex).join('.')}.';
-    return [firstColumn, secondColumn, thirdColumn];
+    final lede = widget.description.substring(0, idx + 1);
+    final rest = widget.description.substring(idx + 1).trim();
+    return (lede, rest);
   }
 
-  Widget _buildColumn(String text, {required bool isFirstColumn}) {
-    List<String> paragraphs = text.split('.');
-    return Expanded(
-      flex: 1,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: paragraphs.asMap().entries.map((entry) {
-          int idx = entry.key;
-          String paragraph = entry.value.trim();
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 20.0),
-            child: Text(
-              paragraph,
-              style: (isFirstColumn && idx == 0)
-                  ? TextStyle(
-                      color: widget.textColor, // Cambia a tu color deseado
-                      fontSize: 28,
-                    )
-                  : TextStyle(
-                      color: widget.textColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w100,
-                      height: 2,
-                    ),
+  Widget _buildDescription(BuildContext context, {required bool wide}) {
+    final (lede, rest) = _splitDescription();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 680),
+          child: Text(
+            lede,
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  fontSize: wide ? 19 : 16.5,
+                  height: 1.55,
+                ),
+          ),
+        ),
+        const Gap(24),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 640),
+          child: Text(
+            rest,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontSize: wide ? 16 : 14.5,
+                  height: 1.9,
+                  color: Constants.ink.withAlpha(210),
+                ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildImagesBand(BuildContext context, {required bool wide}) {
+    if (wide) {
+      return Container(
+        width: double.infinity,
+        color: Constants.panel,
+        padding: const EdgeInsets.symmetric(vertical: 44),
+        child: Center(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              spacing: 20,
+              children: widget.images
+                  .map((image) => ImagePhoneWidget(height: 470, url: image))
+                  .toList(),
             ),
-          );
-        }).toList(),
+          ),
+        ),
+      );
+    }
+    return Container(
+      width: double.infinity,
+      color: Constants.panel,
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
+      child: Column(
+        children: widget.images
+            .map(
+              (image) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: ImagePhoneWidget(height: 500, url: image),
+              ),
+            )
+            .toList(),
       ),
     );
   }
 
+  Widget _buildActionButtons(BuildContext context) {
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 16,
+      runSpacing: 16,
+      children: [
+        if (widget.openApple != null)
+          _TextArrowButton(label: 'App Store', onTap: widget.openApple),
+        if (widget.openAndroid != null)
+          _TextArrowButton(label: 'Google Play', onTap: widget.openAndroid),
+        if (widget.openWebpage != null)
+          _TextArrowButton(label: 'Webpage', onTap: widget.openWebpage),
+      ],
+    );
+  }
+
   Widget _buildWideLayout(BuildContext context) {
-    List<String> splitText = _splitTextIntoThreeColumns(widget.description);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
+          const Padding(
+            padding: EdgeInsets.symmetric(
                 horizontal: Constants.paddingH, vertical: 30),
             child: Row(
               children: [
-                NameWidget(
-                  color: widget.textColor,
-                ),
-                const Spacer(),
-                BackButton(color: widget.textColor),
+                NameWidget(),
+                Spacer(),
+                BackButton(color: Constants.ink),
               ],
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(widget.coverImage),
-              ),
-            ),
-            height: 300,
-            width: double.infinity,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: Constants.paddingH),
-                child: StrokeText(
-                  maxLines: 2,
-                  text: widget.title.toUpperCase(),
-                  textStyle: GoogleFonts.kanit(
-                    color: Colors.transparent,
-                    fontSize: 120,
-                    fontWeight: FontWeight.w900,
-                    height: 1,
-                  ),
-                  strokeColor: widget.textColorCover!,
-                  strokeWidth: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.right,
-                ),
-              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(
-                left: 110, right: 110, top: 80, bottom: 20),
-            child: Row(
+            padding: const EdgeInsets.symmetric(horizontal: Constants.paddingH),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildColumn(splitText[0], isFirstColumn: true),
-                const SizedBox(width: 30),
-                _buildColumn(splitText[1], isFirstColumn: false),
-                const SizedBox(width: 30),
-                _buildColumn(splitText[2], isFirstColumn: false),
+                const Gap(20),
+                _RiseIn(
+                  child: Text(
+                    widget.title.toUpperCase(),
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+                const Gap(36),
+                _RiseIn(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: Image.asset(
+                      widget.coverImage,
+                      width: double.infinity,
+                      height: 420,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const Gap(70),
+                _buildDescription(context, wide: true),
+                const Gap(70),
               ],
             ),
           ),
-          Container(
-            width: MediaQuery.sizeOf(context).width,
-            color: widget.colorImagesBack,
-            padding: const EdgeInsets.symmetric(vertical: 30),
-            child: Center(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  spacing: 20,
-                  children: widget.images
-                      .map(
-                        (image) => ImagePhoneWidget(
-                          height: 540,
-                          url: image,
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
-            ),
-          ),
-          const Gap(40),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(
-                flex: 10,
-              ),
-              if (widget.openApple != null)
-                ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.apple,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    backgroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: const BorderSide(color: Colors.white),
-                    ),
-                    minimumSize: const Size(150, 42),
-                  ),
-                  label: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Download on the',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                      Text(
-                        'App Store',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onPressed: widget.openApple,
-                ),
-              if (widget.openApple != null) const Spacer(),
-              if (widget.openAndroid != null)
-                ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.android,
-                    color: Colors.greenAccent,
-                    size: 30,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    backgroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: const BorderSide(color: Colors.greenAccent),
-                    ),
-                    minimumSize: const Size(150, 42),
-                  ),
-                  label: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Get it on',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                      Text(
-                        'Google Play',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onPressed: widget.openAndroid,
-                ),
-              if (widget.openAndroid != null) const Spacer(),
-              if (widget.openWebpage != null)
-                ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.web,
-                    color: Colors.blue,
-                    size: 30,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    backgroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: const BorderSide(color: Colors.blue),
-                    ),
-                    minimumSize: const Size(150, 42),
-                  ),
-                  label: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Open',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                      Text(
-                        'Webpage',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onPressed: widget.openWebpage,
-                ),
-              if (widget.openWebpage != null) const Spacer(flex: 10),
-            ],
-          ),
-          const Gap(200),
+          _buildImagesBand(context, wide: true),
+          const Gap(48),
+          Center(child: _buildActionButtons(context)),
+          const Gap(160),
         ],
       ),
     );
   }
 
   Widget _buildNarrowLayout(BuildContext context) {
-    double height = 500;
-    List<String> paragraphs = widget.description.split('.');
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          HeaderPhoneWidget(
-            color: widget.textColor,
-          ),
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(widget.coverImage),
-              ),
-            ),
-            height: 200,
-            width: double.infinity,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: StrokeText(
-                  maxLines: 2,
-                  text: widget.title.toUpperCase(),
-                  textStyle: GoogleFonts.kanit(
-                    color: Colors.transparent,
-                    fontSize: 80,
-                    fontWeight: FontWeight.w900,
-                    height: 1,
-                  ),
-                  strokeColor: widget.textColorCover!,
-                  strokeWidth: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.right,
-                ),
-              ),
-            ),
-          ),
+          const HeaderPhoneWidget(),
           Padding(
-            padding: const EdgeInsets.all(20),
-            child: RichText(
-              text: TextSpan(
-                style: GoogleFonts.kanit(
-                  color: widget.textColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  height: 2,
-                ),
-                children: _buildTextSpans(paragraphs),
-              ),
-              textAlign: TextAlign.start,
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            color: widget.colorImagesBack,
-            padding: const EdgeInsets.symmetric(vertical: 30),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                  widget.images.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: ImagePhoneWidget(
-                      height: height,
-                      url: widget.images[index],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const Gap(40),
-          Center(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (widget.openApple != null)
-                  ElevatedButton.icon(
-                    icon: const Icon(
-                      Icons.apple,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: const BorderSide(color: Colors.white),
-                      ),
-                      minimumSize: const Size(150, 42),
-                    ),
-                    label: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Download on the',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        Text(
-                          'App Store',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onPressed: widget.openApple,
+                const Gap(10),
+                Text(
+                  widget.title.toUpperCase(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 34),
+                ),
+                const Gap(24),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: Image.asset(
+                    widget.coverImage,
+                    width: double.infinity,
+                    height: 220,
+                    fit: BoxFit.cover,
                   ),
-                if (widget.openApple != null) const Gap(20),
-                if (widget.openAndroid != null)
-                  ElevatedButton.icon(
-                    icon: const Icon(
-                      Icons.android,
-                      color: Colors.greenAccent,
-                      size: 30,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: const BorderSide(color: Colors.greenAccent),
-                      ),
-                      minimumSize: const Size(150, 42),
-                    ),
-                    label: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Get it on',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        Text(
-                          'Google Play',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onPressed: widget.openAndroid,
-                  ),
-                if (widget.openAndroid != null) const Gap(20),
-                if (widget.openWebpage != null)
-                  ElevatedButton.icon(
-                    icon: const Icon(
-                      Icons.web,
-                      color: Colors.blue,
-                      size: 30,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 16),
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: const BorderSide(color: Colors.blue),
-                      ),
-                      minimumSize: const Size(150, 42),
-                    ),
-                    label: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Open',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        Text(
-                          'Webpage',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onPressed: widget.openWebpage,
-                  ),
+                ),
+                const Gap(44),
+                _buildDescription(context, wide: false),
+                const Gap(44),
               ],
             ),
           ),
+          _buildImagesBand(context, wide: false),
+          const Gap(40),
+          Center(child: _buildActionButtons(context)),
           const Gap(100),
         ],
       ),
     );
   }
+}
 
-  List<TextSpan> _buildTextSpans(List<String> paragraphs) {
-    List<TextSpan> textSpans = [];
-    for (int i = 0; i < paragraphs.length; i++) {
-      if (paragraphs[i].trim().isNotEmpty) {
-        textSpans.add(
-          TextSpan(
-            text: '${paragraphs[i].trim()}.\n\n',
-            style: i == 0
-                ? GoogleFonts.kanit(
-                    color: widget.textColor,
-                    fontSize: 22,
-                    height: 1.5,
-                  )
-                : null,
+class _RiseIn extends StatelessWidget {
+  const _RiseIn({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.easeOutCubic,
+      builder: (context, t, _) => Opacity(
+        opacity: t,
+        child: Transform.translate(
+          offset: Offset(0, 14 * (1 - t)),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
+class _TextArrowButton extends StatefulWidget {
+  const _TextArrowButton({required this.label, this.onTap});
+
+  final String label;
+  final VoidCallback? onTap;
+
+  @override
+  State<_TextArrowButton> createState() => _TextArrowButtonState();
+}
+
+class _TextArrowButtonState extends State<_TextArrowButton> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: Constants.animFast,
+          curve: Curves.easeOutCubic,
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(999),
+            color: _hovered ? Constants.ink : Colors.transparent,
+            border: Border.all(
+              color: _hovered ? Constants.ink : Constants.ink.withAlpha(46),
+            ),
           ),
-        );
-      }
-    }
-    return textSpans;
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedDefaultTextStyle(
+                duration: Constants.animFast,
+                curve: Curves.easeOutCubic,
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      color: _hovered ? Constants.canvas : Constants.ink,
+                    ),
+                child: Text(widget.label),
+              ),
+              const Gap(8),
+              TweenAnimationBuilder<Color?>(
+                tween: ColorTween(
+                  end: _hovered ? Constants.canvas : Constants.ink,
+                ),
+                duration: Constants.animFast,
+                curve: Curves.easeOutCubic,
+                builder: (context, color, child) => Icon(
+                  Icons.north_east,
+                  size: 14,
+                  color: color,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

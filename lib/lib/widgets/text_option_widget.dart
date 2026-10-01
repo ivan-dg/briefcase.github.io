@@ -1,138 +1,130 @@
+import 'dart:async';
+
+import 'package:briefcase/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:stroke_text/stroke_text.dart';
 
 class TextOptionWidget extends StatefulWidget {
   const TextOptionWidget({
     super.key,
+    required this.index,
     required this.title,
-    this.subtitle = '',
     this.onTap,
-    this.alignment = Alignment.center,
-    required this.hFactor,
   });
 
+  final int index;
   final String title;
-  final String? subtitle;
-  final Function()? onTap;
-  final AlignmentGeometry? alignment;
-  final double hFactor;
+  final VoidCallback? onTap;
 
   @override
   State<TextOptionWidget> createState() => _TextOptionWidgetState();
 }
 
-class _TextOptionWidgetState extends State<TextOptionWidget> {
-  bool _isHovered = false;
-  double strokeWidth = 2.0;
-  double height = 1.1;
-  int duration = 250;
+class _TextOptionWidgetState extends State<TextOptionWidget>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+  Timer? _timer;
+  bool _hovered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 650),
+    );
+    _animation =
+        CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
+    _timer = Timer(
+      Duration(milliseconds: 150 + widget.index * 80),
+      _controller.forward,
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final matrix = Matrix4.identity()
-      ..setEntry(3, 2, 0.0009) // perspectiva
-      ..rotateY(0.8)
-      ..rotateX(-0.1);
-    final screensize = MediaQuery.sizeOf(context);
-    final fontsize = screensize.width * widget.hFactor;
-    // final fontsize = screensize.width * 0.075;
-    return Transform(
-      alignment: widget.alignment,
-      transform: matrix, // rotación en el eje Y
-      child: MouseRegion(
-        onEnter: (_) {
-          setState(() {
-            _isHovered = true;
-          });
-        },
-        onExit: (_) {
-          setState(() {
-            _isHovered = false;
-          });
-        },
-        child: GestureDetector(
-          onTap: widget.onTap,
-          child: Column(
-            crossAxisAlignment: widget.alignment == Alignment.topLeft
-                ? CrossAxisAlignment.start
-                : CrossAxisAlignment.end,
-            children: [
-              Row(
-                children: [
-                  StrokeText(
-                    text: '/',
-                    textStyle: GoogleFonts.kanit(
-                      color: Colors.black.withAlpha((0.5 * 255).toInt()),
-                      fontSize: 85,
-                      fontWeight: FontWeight.w100,
-                      height: height,
-                    ),
-                  ),
-                  TweenAnimationBuilder(
-                    duration: Duration(milliseconds: duration),
-                    tween: ColorTween(
-                      begin: Colors.black,
-                      end: _isHovered ? Colors.transparent : Colors.black,
-                    ),
-                    builder:
-                        (BuildContext context, dynamic color, Widget? child) {
-                      return StrokeText(
-                        text: widget.title.toUpperCase(),
-                        textStyle: _isHovered
-                            ? GoogleFonts.kanit(
-                                color: color,
-                                fontSize: fontsize,
-                                fontWeight: FontWeight.w900,
-                                height: height,
-                              )
-                            : GoogleFonts.kanit(
-                                color: color,
-                                fontSize: fontsize,
-                                fontWeight: FontWeight.w900,
-                                height: height,
+    final wide = MediaQuery.sizeOf(context).width > 800;
+    final titleSize = wide ? 32.0 : 23.0;
+
+    return FadeTransition(
+      opacity: _animation,
+      child: SlideTransition(
+        position: _animation.drive(
+          Tween<Offset>(begin: const Offset(0, 0.06), end: Offset.zero),
+        ),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onEnter: (_) => setState(() => _hovered = true),
+          onExit: (_) => setState(() => _hovered = false),
+          child: GestureDetector(
+            onTap: widget.onTap,
+            behavior: HitTestBehavior.opaque,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: wide ? 24 : 16),
+                  child: Row(
+                    children: [
+                      AnimatedDefaultTextStyle(
+                        duration: Constants.animFast,
+                        curve: Curves.easeOutCubic,
+                        style: GoogleFonts.spaceMono(
+                          fontSize: 12,
+                          color: _hovered
+                              ? Constants.accent
+                              : Constants.inkSecondary,
+                        ),
+                        child: Text(widget.index.toString().padLeft(2, '0')),
+                      ),
+                      const Gap(28),
+                      TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 0.0, end: _hovered ? 1.0 : 0.0),
+                        duration: Constants.animFast,
+                        curve: Curves.easeOutCubic,
+                        builder: (context, t, child) => Transform.translate(
+                          offset: Offset(8 * t, 0),
+                          child: child,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.title.toUpperCase(),
+                              style: GoogleFonts.fraunces(
+                                fontSize: titleSize,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: -0.5,
+                                height: 1.0,
+                                color: Constants.ink,
                               ),
-                        strokeColor: Colors.black,
-                        strokeWidth: strokeWidth,
-                        overflow: TextOverflow.ellipsis,
-                      );
-                    },
-                  ),
-                ],
-              ),
-              Visibility(
-                visible: widget.subtitle!.isNotEmpty,
-                child: TweenAnimationBuilder<Color?>(
-                  duration: Duration(milliseconds: duration),
-                  tween: ColorTween(
-                    begin: Colors.black,
-                    end: _isHovered ? Colors.transparent : Colors.black,
-                  ),
-                  builder:
-                      (BuildContext context, dynamic color, Widget? child) {
-                    return StrokeText(
-                      text: widget.subtitle!.toUpperCase(),
-                      textStyle: _isHovered
-                          ? GoogleFonts.kanit(
-                              color: color,
-                              fontSize: fontsize,
-                              fontWeight: FontWeight.w900,
-                              height: height,
-                            )
-                          : GoogleFonts.kanit(
-                              color: color,
-                              fontSize: fontsize,
-                              fontWeight: FontWeight.w900,
-                              height: height,
                             ),
-                      strokeColor: Colors.black,
-                      strokeWidth: strokeWidth,
-                      overflow: TextOverflow.ellipsis,
-                    );
-                  },
+                            const Gap(6),
+                            AnimatedContainer(
+                              duration: Constants.animFast,
+                              curve: Curves.easeOutCubic,
+                              width: _hovered ? 44 : 0,
+                              height: 2,
+                              color: Constants.ink,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                Container(height: 1, color: Constants.hairline),
+              ],
+            ),
           ),
         ),
       ),
