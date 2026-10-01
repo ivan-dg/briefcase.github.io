@@ -44,6 +44,13 @@ class _HomePageState extends State<HomePage>
     }
   }
 
+  Future<void> _launchEmail() async {
+    final Uri toLaunch = Uri.parse(Constants.urlEmail);
+    if (!await launchUrl(toLaunch)) {
+      throw Exception('Could not launch $toLaunch');
+    }
+  }
+
   void _openDetail(DetailInfoPage page) {
     Navigator.push(
       context,
@@ -223,17 +230,19 @@ class _HomePageState extends State<HomePage>
           const Gap(24),
           Text('Pasto, Colombia', style: mono),
           const Gap(4),
-          SelectableText(
-            'ivandgustin@gmail.com',
-            style: mono.copyWith(
-              color: Constants.ink,
-              fontWeight: FontWeight.w700,
-            ),
+          _MonoLink(
+            label: 'ivandgustin@gmail.com',
+            onTap: _launchEmail,
           ),
           const Gap(24),
           _MonoLink(
             label: 'LinkedIn ↗',
             onTap: () => _launchURL('https://www.linkedin.com/in/ivandgu/'),
+          ),
+          const Gap(8),
+          _MonoLink(
+            label: 'WhatsApp ↗',
+            onTap: () => _launchURL(Constants.urlWhatsApp),
           ),
         ],
       ),
@@ -261,6 +270,8 @@ class _HomePageState extends State<HomePage>
           child: SingleChildScrollView(
             padding: const EdgeInsets.only(
                 left: 40, top: 60, bottom: 60, right: Constants.paddingH),
+          child: Align(
+            alignment: Alignment.centerRight,
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 720),
               child: Column(
@@ -268,6 +279,7 @@ class _HomePageState extends State<HomePage>
                 children: _projectRows(),
               ),
             ),
+          ),
           ),
         ),
       ],

@@ -21,4 +21,6 @@ class Constants {
   static const String urlIosPubs =
       'https://apps.apple.com/app/pubs/id6670232317';
   static const String urlSqwablWeb = 'https://www.sqwabl.com/';
+  static const String urlWhatsApp = 'https://wa.me/573195126070';
+  static const String urlEmail = 'mailto:ivandgustin@gmail.com';
 }
