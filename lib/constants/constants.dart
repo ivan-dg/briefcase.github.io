@@ -7,4 +7,5 @@ class Constants {
       'https://play.google.com/store/apps/details?id=com.disruptive.pubs&hl=en';
   static const String urlIosPubs =
       'https://apps.apple.com/app/pubs/id6670232317';
+  static const String urlSqwablWeb = 'https://www.sqwabl.com/';
 }
