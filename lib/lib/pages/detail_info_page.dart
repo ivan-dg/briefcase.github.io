@@ -1,4 +1,5 @@
 import 'package:briefcase/constants/constants.dart';
+import 'package:briefcase/l10n/app_strings.dart';
 import 'package:briefcase/lib/widgets/image_phone_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -140,22 +141,22 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
         if (widget.openApple != null)
           _storeButton(
             icon: Icons.apple,
-            topLabel: 'Download on the',
-            bottomLabel: 'App Store',
+            topLabel: L10n.of(context, 'appStoreTop'),
+            bottomLabel: L10n.of(context, 'appStoreBottom'),
             onPressed: widget.openApple,
           ),
         if (widget.openAndroid != null)
           _storeButton(
             icon: Icons.android,
-            topLabel: 'Get it on',
-            bottomLabel: 'Google Play',
+            topLabel: L10n.of(context, 'googlePlayTop'),
+            bottomLabel: L10n.of(context, 'googlePlayBottom'),
             onPressed: widget.openAndroid,
           ),
         if (widget.openWebpage != null)
           _storeButton(
             icon: Icons.web,
-            topLabel: 'Open',
-            bottomLabel: 'Webpage',
+            topLabel: L10n.of(context, 'webTop'),
+            bottomLabel: L10n.of(context, 'webBottom'),
             onPressed: widget.openWebpage,
           ),
       ],

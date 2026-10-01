@@ -1,7 +1,10 @@
 import 'package:briefcase/constants/constants.dart';
+import 'package:briefcase/l10n/app_strings.dart';
 import 'package:briefcase/lib/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(const MainApp());
@@ -12,8 +15,34 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return ValueListenableBuilder<Locale?>(
+      valueListenable: appLocale,
+      builder: (context, manualLocale, _) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          locale: manualLocale,
+          supportedLocales: const [
+            Locale('es'),
+            Locale('en'),
+          ],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          localeResolutionCallback: (deviceLocale, supportedLocales) {
+            final Locale? requested = manualLocale ?? deviceLocale;
+            if (requested != null) {
+              for (final Locale supported in supportedLocales) {
+                if (supported.languageCode == requested.languageCode) {
+                  Intl.defaultLocale = supported.toString();
+                  return supported;
+                }
+              }
+            }
+            Intl.defaultLocale = 'es';
+            return const Locale('es');
+          },
       theme: ThemeData(
         scaffoldBackgroundColor: Constants.canvas,
         textTheme: TextTheme(
@@ -54,7 +83,9 @@ class MainApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const HomePage(),
+          home: const HomePage(),
+        );
+      },
     );
   }
 }
