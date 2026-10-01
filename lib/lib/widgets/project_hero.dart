@@ -57,6 +57,7 @@ class ProjectHero extends StatelessWidget {
       flightShuttleBuilder: _flightShuttle,
       child: Text(
         title.toUpperCase(),
+        textAlign: detail ? TextAlign.center : TextAlign.start,
         style: _style(wide, detail),
       ),
     );
@@ -80,6 +81,7 @@ class ProjectHero extends StatelessWidget {
       animation: flightAnimation,
       builder: (context, _) => Text(
         flightTitle.toUpperCase(),
+        textAlign: toDetail ? TextAlign.center : TextAlign.start,
         style: TextStyle.lerp(from, to, flightAnimation.value),
       ),
     );

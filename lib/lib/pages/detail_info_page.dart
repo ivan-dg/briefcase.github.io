@@ -138,7 +138,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
             constraints: const BoxConstraints(maxWidth: 680),
             child: Text(
               lede,
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.justify,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontSize: wide ? 19 : 16.5,
                     height: 1.55,
@@ -152,7 +152,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
             constraints: const BoxConstraints(maxWidth: 640),
             child: Text(
               rest,
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.justify,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: wide ? 16 : 14.5,
                     height: 1.9,
@@ -298,7 +298,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Gap(10),
-                ProjectHero(title: widget.title, detail: true),
+                Center(child: ProjectHero(title: widget.title, detail: true)),
                 const Gap(24),
                 _StaggerIn(
                   order: 0,
@@ -449,4 +449,3 @@ class _StoreButtonState extends State<_StoreButton> {
     );
   }
 }
-
