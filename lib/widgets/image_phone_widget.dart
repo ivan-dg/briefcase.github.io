@@ -14,6 +14,8 @@ class ImagePhoneWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Decodifica el PNG al tamaño real de pantalla: menos memoria y scroll fluido.
+    final double dpr = MediaQuery.devicePixelRatioOf(context);
     return ClipRRect(
       borderRadius: const BorderRadius.all(
         Radius.circular(10),
@@ -23,6 +25,9 @@ class ImagePhoneWidget extends StatelessWidget {
         width: width,
         url,
         fit: BoxFit.cover,
+        cacheWidth: (width * dpr).round(),
+        cacheHeight: (height * dpr).round(),
+        filterQuality: FilterQuality.medium,
         frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
           if (wasSynchronouslyLoaded) {
             return child;

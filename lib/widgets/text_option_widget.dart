@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:briefcase/constants/constants.dart';
-import 'package:briefcase/lib/widgets/project_hero.dart';
+import 'package:briefcase/widgets/project_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -59,7 +59,7 @@ class _TextOptionWidgetState extends State<TextOptionWidget>
 
   @override
   Widget build(BuildContext context) {
-    final wide = MediaQuery.sizeOf(context).width > 800;
+    final wide = MediaQuery.sizeOf(context).width > Constants.wideBreakpoint;
 
     return FadeTransition(
       opacity: _animation,

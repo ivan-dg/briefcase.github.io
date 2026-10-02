@@ -1,5 +1,6 @@
 import 'package:briefcase/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NameWidget extends StatefulWidget {
   const NameWidget({
@@ -43,7 +44,13 @@ class _NameWidgetState extends State<NameWidget>
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
-          onTap: () => Navigator.of(context).maybePop(),
+          onTap: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go('/');
+            }
+          },
           child: Text(
             'IVAN \nGUSTIN \nCO.',
             style: Theme.of(context).textTheme.titleMedium!.copyWith(

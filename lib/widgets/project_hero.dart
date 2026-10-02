@@ -51,7 +51,8 @@ class ProjectHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool wide = MediaQuery.sizeOf(context).width > 800;
+    final bool wide =
+        MediaQuery.sizeOf(context).width > Constants.wideBreakpoint;
     return Hero(
       tag: '$_tagPrefix$title',
       flightShuttleBuilder: _flightShuttle,
@@ -70,7 +71,8 @@ class ProjectHero extends StatelessWidget {
     BuildContext fromContext,
     BuildContext toContext,
   ) {
-    final bool wide = MediaQuery.sizeOf(flightContext).width > 800;
+    final bool wide =
+        MediaQuery.sizeOf(flightContext).width > Constants.wideBreakpoint;
     final bool toDetail = direction == HeroFlightDirection.push;
     final Hero toHero = toContext.widget as Hero;
     final String flightTitle =

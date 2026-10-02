@@ -1,8 +1,9 @@
 import 'package:briefcase/constants/constants.dart';
+import 'package:briefcase/data/projects_data.dart';
 import 'package:briefcase/l10n/app_strings.dart';
-import 'package:briefcase/lib/pages/detail_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/name_widget.dart';
@@ -52,19 +53,12 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  void _openDetail(DetailInfoPage page) {
-    Navigator.push(
-      context,
-      _FadeThroughRoute<void>(page: page),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxWidth > 800) {
+          if (constraints.maxWidth > Constants.wideBreakpoint) {
             return _buildWideLayout(context);
           } else {
             return _buildNarrowLayout(context);
@@ -76,138 +70,12 @@ class _HomePageState extends State<HomePage>
 
   List<Widget> _projectRows(BuildContext context) {
     return [
-      TextOptionWidget(
-        index: 1,
-        title: 'sqwabl',
-        onTap: () => _openDetail(
-          DetailInfoPage(
-            title: 'sqwabl',
-            description: L10n.of(context, 'sqwablDescription'),
-            coverImage: 'assets/sqwabl_1.png',
-            colorImagesBack: const Color(0xff60308f),
-            images: const [
-              'assets/sqwabl_2.png',
-              'assets/sqwabl_5.png',
-              'assets/sqwabl_3.png',
-              'assets/sqwabl_4.png',
-              'assets/sqwabl_6.png',
-            ],
-            openWebpage: () => _launchURL(Constants.urlSqwablWeb),
-          ),
+      for (final (index, project) in projects.indexed)
+        TextOptionWidget(
+          index: index + 1,
+          title: project.id,
+          onTap: () => context.push(project.route),
         ),
-      ),
-      TextOptionWidget(
-        index: 2,
-        title: 'athlete arcade',
-        onTap: () => _openDetail(
-          DetailInfoPage(
-            title: 'athlete arcade',
-            description: L10n.of(context, 'athleteArcadeDescription'),
-            coverImage: 'assets/athl_ar_1.jpg',
-            colorImagesBack: const Color(0xff00aa57),
-            images: const [
-              'assets/athl_ar_5.png',
-              'assets/athl_ar_2.png',
-              'assets/athl_ar_3.png',
-              'assets/athl_ar_4.png',
-            ],
-          ),
-        ),
-      ),
-      TextOptionWidget(
-        index: 3,
-        title: 'DOC IA',
-        onTap: () => _openDetail(
-          DetailInfoPage(
-            title: 'DOC IA',
-            description: L10n.of(context, 'docIaDescription'),
-            coverImage: 'assets/doctor_ia_1.jpg',
-            colorImagesBack: const Color(0xFF00CCFF),
-            images: const [
-              'assets/doctor_ia_2.png',
-              'assets/doctor_ia_3.png',
-              'assets/doctor_ia_4.png',
-            ],
-            openWebpage: () => _launchURL(Constants.webpageDocIA),
-          ),
-        ),
-      ),
-      TextOptionWidget(
-        index: 4,
-        title: 'PUBS',
-        onTap: () => _openDetail(
-          DetailInfoPage(
-            title: 'PUBS',
-            description: L10n.of(context, 'pubsDescription'),
-            coverImage: 'assets/bar.webp',
-            colorImagesBack: const Color(0XFFE9FB00),
-            images: const [
-              'assets/pubs_1.png',
-              'assets/pubs_2.png',
-              'assets/pubs_3.png',
-              'assets/pubs_4.png',
-            ],
-            openWebpage: () => _launchURL(Constants.webpagePubs),
-            openAndroid: () => _launchURL(Constants.urlAndroidPubs),
-            openApple: () => _launchURL(Constants.urlIosPubs),
-          ),
-        ),
-      ),
-      TextOptionWidget(
-        index: 5,
-        title: 'TRIPPSTER',
-        onTap: () => _openDetail(
-          DetailInfoPage(
-            title: 'TRIPPSTER',
-            description: L10n.of(context, 'trippsterDescription'),
-            coverImage: 'assets/trippster_6.png',
-            colorImagesBack: const Color(0XFF00C535),
-            images: const [
-              'assets/trippster_1.png',
-              'assets/trippster_3.png',
-              'assets/trippster_5.png',
-              'assets/trippster_4.png',
-              'assets/trippster_2.png',
-            ],
-          ),
-        ),
-      ),
-      TextOptionWidget(
-        index: 6,
-        title: 'MEPET',
-        onTap: () => _openDetail(
-          DetailInfoPage(
-            title: 'MEPET',
-            description: L10n.of(context, 'mepetDescription'),
-            coverImage: 'assets/mepet_1.png',
-            colorImagesBack: const Color(0xFFB9C4FF),
-            images: const [
-              'assets/mepet_2.png',
-              'assets/mepet_3.png',
-              'assets/mepet_4.png',
-              'assets/mepet_5.png',
-            ],
-          ),
-        ),
-      ),
-      TextOptionWidget(
-        index: 7,
-        title: 'CONSULTORIO VIRTUAL',
-        onTap: () => _openDetail(
-          DetailInfoPage(
-            title: 'CONSULTORIO VIRTUAL',
-            description: L10n.of(context, 'consultorioDescription'),
-            coverImage: 'assets/cons_virt_1.jpg',
-            colorImagesBack: const Color(0XFF2A52A3),
-            images: const [
-              'assets/cons_virt_2.png',
-              'assets/cons_virt_3.png',
-              'assets/cons_virt_5.png',
-              'assets/cons_virt_4.png',
-            ],
-          ),
-        ),
-      ),
     ];
   }
 
@@ -409,27 +277,4 @@ class _LangOptionState extends State<_LangOption> {
       ),
     );
   }
-}
-
-class _FadeThroughRoute<T> extends PageRouteBuilder<T> {
-  _FadeThroughRoute({required Widget page})
-      : super(
-          transitionDuration: const Duration(milliseconds: 450),
-          reverseTransitionDuration: const Duration(milliseconds: 380),
-          pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            final curved = CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeOutCubic,
-              reverseCurve: Curves.easeInCubic,
-            );
-            return FadeTransition(
-              opacity: curved,
-              child: ScaleTransition(
-                scale: Tween<double>(begin: 0.96, end: 1.0).animate(curved),
-                child: child,
-              ),
-            );
-          },
-        );
 }

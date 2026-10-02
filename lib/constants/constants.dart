@@ -4,6 +4,9 @@ class Constants {
   static const double paddingH = 60;
   static const double paddingV = 60;
 
+  /// Ancho a partir del cual se usa el layout de escritorio/web.
+  static const double wideBreakpoint = 800;
+
   // Design tokens: ink on warm paper.
   static const Color canvas = Color(0xFFF7F5F0);
   static const Color panel = Color(0xFFEFECE4);
@@ -14,13 +17,6 @@ class Constants {
 
   static const Duration animFast = Duration(milliseconds: 280);
 
-  static const String webpageDocIA = 'https://medico-virtual-a1e7d.web.app/';
-  static const String webpagePubs = 'https://pubsco.com/';
-  static const String urlAndroidPubs =
-      'https://play.google.com/store/apps/details?id=com.disruptive.pubs&hl=en';
-  static const String urlIosPubs =
-      'https://apps.apple.com/app/pubs/id6670232317';
-  static const String urlSqwablWeb = 'https://www.sqwabl.com/';
   static const String urlWhatsApp = 'https://wa.me/573195126070';
   static const String urlEmail = 'mailto:ivandgustin@gmail.com';
 }

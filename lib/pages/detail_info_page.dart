@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:briefcase/constants/constants.dart';
 import 'package:briefcase/l10n/app_strings.dart';
-import 'package:briefcase/lib/widgets/image_phone_widget.dart';
-import 'package:briefcase/lib/widgets/project_hero.dart';
+import 'package:briefcase/models/project.dart';
+import 'package:briefcase/widgets/image_phone_widget.dart';
+import 'package:briefcase/widgets/project_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/header_phone_widget.dart';
 import '../widgets/name_widget.dart';
@@ -13,24 +15,10 @@ import '../widgets/name_widget.dart';
 class DetailInfoPage extends StatefulWidget {
   const DetailInfoPage({
     super.key,
-    required this.title,
-    required this.description,
-    required this.coverImage,
-    required this.images,
-    this.colorImagesBack = Constants.panel,
-    this.openAndroid,
-    this.openApple,
-    this.openWebpage,
+    required this.project,
   });
 
-  final String title;
-  final String description;
-  final String coverImage;
-  final List<String> images;
-  final Color colorImagesBack;
-  final VoidCallback? openApple;
-  final VoidCallback? openAndroid;
-  final VoidCallback? openWebpage;
+  final Project project;
 
   @override
   State<DetailInfoPage> createState() => _DetailInfoPageState();
@@ -46,9 +34,23 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // La portada ya esta decodificada cuando termina la transicion.
+    precacheImage(AssetImage(widget.project.coverImage), context);
+  }
+
+  @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  Future<void> _launch(String url) async {
+    final Uri toLaunch = Uri.parse(url);
+    if (!await launchUrl(toLaunch, mode: LaunchMode.inAppBrowserView)) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   @override
@@ -56,7 +58,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxWidth > 800) {
+          if (constraints.maxWidth > Constants.wideBreakpoint) {
             return _buildWideLayout(context);
           } else {
             return _buildNarrowLayout(context);
@@ -66,13 +68,13 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
     );
   }
 
-  (String, String) _splitDescription() {
-    final idx = widget.description.indexOf('.');
+  (String, String) _splitDescription(String description) {
+    final idx = description.indexOf('.');
     if (idx < 0) {
-      return (widget.description, '');
+      return (description, '');
     }
-    final lede = widget.description.substring(0, idx + 1);
-    final rest = widget.description.substring(idx + 1).trim();
+    final lede = description.substring(0, idx + 1);
+    final rest = description.substring(idx + 1).trim();
     return (lede, rest);
   }
 
@@ -94,6 +96,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
   }
 
   Widget _parallaxCover({required double height, required double extra}) {
+    final double dpr = MediaQuery.devicePixelRatioOf(context);
     return ClipRRect(
       borderRadius: BorderRadius.circular(6),
       child: SizedBox(
@@ -117,10 +120,12 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
             );
           },
           child: Image.asset(
-            widget.coverImage,
+            widget.project.coverImage,
             width: double.infinity,
             height: height + extra,
             fit: BoxFit.cover,
+            cacheWidth: (MediaQuery.sizeOf(context).width * dpr).round(),
+            filterQuality: FilterQuality.medium,
             frameBuilder: _fadeFrameBuilder,
           ),
         ),
@@ -129,7 +134,8 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
   }
 
   Widget _buildDescription(BuildContext context, {required bool wide}) {
-    final (lede, rest) = _splitDescription();
+    final (lede, rest) =
+        _splitDescription(L10n.of(context, widget.project.descriptionKey));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -166,17 +172,18 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
   }
 
   Widget _buildImagesBand(BuildContext context, {required bool wide}) {
+    final images = widget.project.images;
     if (wide) {
       return Container(
         width: double.infinity,
-        color: widget.colorImagesBack,
+        color: widget.project.colorImagesBack,
         padding: const EdgeInsets.symmetric(vertical: 44),
         child: Center(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               spacing: 20,
-              children: widget.images
+              children: images
                   .map((image) => ImagePhoneWidget(height: 470, url: image))
                   .toList(),
             ),
@@ -185,37 +192,38 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
       );
     }
     return _NarrowImagesCarousel(
-      images: widget.images,
-      background: widget.colorImagesBack,
+      images: images,
+      background: widget.project.colorImagesBack,
     );
   }
 
   Widget _buildActionButtons(BuildContext context) {
+    final project = widget.project;
     return Wrap(
       alignment: WrapAlignment.center,
       spacing: 16,
       runSpacing: 16,
       children: [
-        if (widget.openApple != null)
+        if (project.urlApple != null)
           _StoreButton(
             icon: Icons.apple,
             topLabel: L10n.of(context, 'appStoreTop'),
             bottomLabel: L10n.of(context, 'appStoreBottom'),
-            onPressed: widget.openApple,
+            onPressed: () => _launch(project.urlApple!),
           ),
-        if (widget.openAndroid != null)
+        if (project.urlAndroid != null)
           _StoreButton(
             icon: Icons.android,
             topLabel: L10n.of(context, 'googlePlayTop'),
             bottomLabel: L10n.of(context, 'googlePlayBottom'),
-            onPressed: widget.openAndroid,
+            onPressed: () => _launch(project.urlAndroid!),
           ),
-        if (widget.openWebpage != null)
+        if (project.urlWeb != null)
           _StoreButton(
             icon: Icons.web,
             topLabel: L10n.of(context, 'webTop'),
             bottomLabel: L10n.of(context, 'webBottom'),
-            onPressed: widget.openWebpage,
+            onPressed: () => _launch(project.urlWeb!),
           ),
       ],
     );
@@ -244,7 +252,7 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Gap(20),
-                ProjectHero(title: widget.title, detail: true),
+                ProjectHero(title: widget.project.id, detail: true),
                 const Gap(36),
                 _StaggerIn(
                   order: 0,
@@ -287,7 +295,9 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Gap(10),
-                Center(child: ProjectHero(title: widget.title, detail: true)),
+                Center(
+                  child: ProjectHero(title: widget.project.id, detail: true),
+                ),
                 const Gap(24),
                 _StaggerIn(
                   order: 0,
