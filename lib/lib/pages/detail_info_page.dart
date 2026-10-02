@@ -184,20 +184,9 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
         ),
       );
     }
-    return Container(
-      width: double.infinity,
-      color: widget.colorImagesBack,
-      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
-      child: Column(
-        children: widget.images
-            .map(
-              (image) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: ImagePhoneWidget(height: 500, url: image),
-              ),
-            )
-            .toList(),
-      ),
+    return _NarrowImagesCarousel(
+      images: widget.images,
+      background: widget.colorImagesBack,
     );
   }
 
@@ -323,6 +312,111 @@ class _DetailInfoPageState extends State<DetailInfoPage> {
             child: Center(child: _buildActionButtons(context)),
           ),
           const Gap(100),
+        ],
+      ),
+    );
+  }
+}
+
+class _NarrowImagesCarousel extends StatefulWidget {
+  const _NarrowImagesCarousel({
+    required this.images,
+    required this.background,
+  });
+
+  final List<String> images;
+  final Color background;
+
+  @override
+  State<_NarrowImagesCarousel> createState() => _NarrowImagesCarouselState();
+}
+
+class _NarrowImagesCarouselState extends State<_NarrowImagesCarousel> {
+  late final PageController _pageController;
+  double _page = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(viewportFraction: 0.78);
+    _pageController.addListener(_handleScroll);
+  }
+
+  void _handleScroll() {
+    if (!_pageController.hasClients) {
+      return;
+    }
+    final page = _pageController.page;
+    if (page != null && page != _page) {
+      setState(() => _page = page);
+    }
+  }
+
+  @override
+  void dispose() {
+    _pageController.removeListener(_handleScroll);
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.sizeOf(context).height;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
+    final double imageHeight =
+        (screenHeight * 0.62).clamp(320.0, 500.0).toDouble();
+    final double pageWidth = screenWidth * _pageController.viewportFraction;
+    final double imageWidth = (imageHeight / 2)
+        .clamp(140.0, pageWidth - 20)
+        .toDouble();
+    return Container(
+      width: double.infinity,
+      color: widget.background,
+      padding: const EdgeInsets.symmetric(vertical: 30),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: imageHeight + 10,
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: widget.images.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Center(
+                    child: ImagePhoneWidget(
+                      height: imageHeight,
+                      width: imageWidth,
+                      url: widget.images[index],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          if (widget.images.length > 1) ...[
+            const Gap(18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(widget.images.length, (index) {
+                final bool active = (index - _page).abs() < 0.5;
+                return AnimatedContainer(
+                  duration: Constants.animFast,
+                  curve: Curves.easeOutCubic,
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: active ? 22 : 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: active
+                        ? Constants.ink
+                        : Constants.inkSecondary.withAlpha(120),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                );
+              }),
+            ),
+          ],
         ],
       ),
     );

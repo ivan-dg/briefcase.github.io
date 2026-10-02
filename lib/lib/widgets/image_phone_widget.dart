@@ -4,10 +4,12 @@ class ImagePhoneWidget extends StatelessWidget {
   const ImagePhoneWidget({
     super.key,
     this.height = 540,
+    this.width = 250,
     required this.url,
   });
 
   final double height;
+  final double width;
   final String url;
 
   @override
@@ -18,7 +20,7 @@ class ImagePhoneWidget extends StatelessWidget {
       ),
       child: Image.asset(
         height: height,
-        width: 250,
+        width: width,
         url,
         fit: BoxFit.cover,
         frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
